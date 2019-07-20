@@ -18,19 +18,13 @@ class AuthController extends Controller
      */
     public function register (RegistrationRequest $request)
     {
-        $user = new User();
-
         $data = $request->validateData();
 
         $data['password'] = $this->hash->make($data['password']);
 
         $userRepository = new UserRepository();
 
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-
         $user = $userRepository->create($data);
-
-        $user['token'] = $token;
 
         $userMapper = new UserResource($user);
 
