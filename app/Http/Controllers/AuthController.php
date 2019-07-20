@@ -26,13 +26,13 @@ class AuthController extends Controller
 
         $userRepository = new UserRepository();
 
-        $userRepository->create($data);
-
         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
 
-        $data['token'] = $token;
+        $user = $userRepository->create($data);
 
-        $userMapper = new UserResource($data);
+        $user['token'] = $token;
+
+        $userMapper = new UserResource($user);
 
         return $this->response->json($userMapper, 200);
     }
