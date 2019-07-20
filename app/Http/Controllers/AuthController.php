@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Repository\UserRepository;
 use Illuminate\Http\JsonResponse;
+use App\Enums\HttpStatusCode;
 
 class AuthController extends Controller
 {
@@ -29,7 +30,7 @@ class AuthController extends Controller
 
         $userMapper = new UserResource($user);
 
-        return new JsonResponse($userMapper, 200);
+        return new JsonResponse($userMapper, HttpStatusCode::HTTP_OK);
     }
 
     /**
@@ -50,14 +51,14 @@ class AuthController extends Controller
             if ($this->hash->check($data['password'], $user['password'])) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
                 $response = ['token' => $token];
-                return new JsonResponse($response, 200);
+                return new JsonResponse($response, HttpStatusCode::HTTP_OK);
             } else {
                 $response = "Password mismatch";
-                return new JsonResponse($response, 200);
+                return new JsonResponse($response, HttpStatusCode::HTTP_UNPROCESSABLE_ENTITY);
             }
         } else {
             $response = 'User does not exist';
-            return new JsonResponse($response, 200);
+            return new JsonResponse($response, HttpStatusCode::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -75,6 +76,6 @@ class AuthController extends Controller
 
         $response = 'You have been successfully logged out!';
 
-        return new JsonResponse($response, 200);
+        return new JsonResponse($response, HttpStatusCode::HTTP_OK);
     }
 }
