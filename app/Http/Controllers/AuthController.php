@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LogoutRequest;
 use App\Http\Requests\RegistrationRequest;
-use App\Models\User;
+use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Repository\UserRepository;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -16,7 +17,7 @@ class AuthController extends Controller
      * @param RegistrationRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register (RegistrationRequest $request)
+    public function register(RegistrationRequest $request) : JsonResponse
     {
         $data = $request->validateData();
 
@@ -28,50 +29,52 @@ class AuthController extends Controller
 
         $userMapper = new UserResource($user);
 
-        return $this->response->json($userMapper, 200);
+        return new JsonResponse($userMapper, 200);
     }
 
     /**
      * Logs in the user
      *
-     * @param RegistrationRequest $request
+     * @param LoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login (Request $request)
+    public function login(LoginRequest $request) : JsonResponse
     {
-        $user = new User();
+        $data = $request->validateData();
 
-        $thisUser = $user->where('email', $request->email)->first();
+        $userRepository = new UserRepository();
 
-        if ($thisUser) {
-            if ($this->hash->check($request['password'], $thisUser['password'])) {
-                $token = $thisUser->createToken('Laravel Password Grant Client')->accessToken;
+        $user = $userRepository->findByEmail($data['email']);
+
+        if ($user) {
+            if ($this->hash->check($data['password'], $user['password'])) {
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
                 $response = ['token' => $token];
-                return $this->response->json($response, 200);
+                return new JsonResponse($response, 200);
             } else {
                 $response = "Password mismatch";
-                return $this->response->json($response, 422);
+                return new JsonResponse($response, 200);
             }
         } else {
             $response = 'User does not exist';
-            return $this->response->json($response, 422);
+            return new JsonResponse($response, 200);
         }
     }
 
     /**
      * Logs out the user
      *
-     * @param Request $request
+     * @param LogoutRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout (Request $request)
+    public function logout(LogoutRequest $request) : JsonResponse
     {
-        $token = $request->user()->token();
+        $token = $request->getToken();
 
         $token->revoke();
 
         $response = 'You have been successfully logged out!';
 
-        return $this->response->json($response, 200);
+        return new JsonResponse($response, 200);
     }
 }

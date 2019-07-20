@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Factory as Validation;
 use Illuminate\Hashing\HashManager as Hash;
-use Illuminate\Routing\ResponseFactory;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
     /**
      * Validation instance.
      *
@@ -30,15 +23,14 @@ class Controller extends BaseController
     protected $hash;
 
     /**
-     * Response instance.
+     * Create new controller instance
      *
-     * @var $response
+     * @param  \Illuminate\Validation\Factory  $validation
+     * @param \Illuminate\Hashing\HashManager $hash
+     * @return void
      */
-    protected $response;
-
-    public function __construct(ResponseFactory $response, Validation $validation, Hash $hash)
+    public function __construct(Validation $validation, Hash $hash)
     {
-        $this->response = $response;
         $this->validation = $validation;
         $this->hash = $hash;
     }

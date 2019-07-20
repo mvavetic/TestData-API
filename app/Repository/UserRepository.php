@@ -3,8 +3,6 @@
 namespace App\Repository;
 
 use App\Models\User;
-use App\Http\Controllers\Controller;
-use Illuminate\Hashing\HashManager;
 
 class UserRepository
 {
@@ -14,7 +12,7 @@ class UserRepository
      * @param  array  $data
      * @return \App\Models\User
      */
-    public function create(array $data)
+    public function create(array $data) : User
     {
         $user = new User();
 
@@ -23,6 +21,15 @@ class UserRepository
         $user->password = $data['password'];
 
         $user->save();
+
+        return $user;
+    }
+
+    public function findByEmail(string $email) : User
+    {
+        $user = new User();
+
+        $user->where('email', $email)->first();
 
         return $user;
     }
