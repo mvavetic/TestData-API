@@ -2,36 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Http\Requests\RegistrationRequest;
+use App\Models\User;
+use App\Http\Resources\UserResource;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register (Request $request)
+    /**
+     * Registers the user
+     *
+     * @param RegistrationRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register (RegistrationRequest $request)
     {
         $user = new User();
 
-        $validator = $this->validation->make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        $data = $request->validateData();
 
-        if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
-        }
+        $data['password'] = $this->hash->make($data['password']);
 
-        $request['password'] = $this->hash->make($request['password']);
+        $userRepository = new UserRepository();
 
-        $user->create($request->toArray());
+        $userRepository->create($data);
 
         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
 
-        $response = ['token' => $token];
+        $data['token'] = $token;
 
-        return response($response, 200);
+        $userMapper = new UserResource($data);
+
+        return $this->response->json($userMapper, 200);
     }
 
+    /**
+     * Logs in the user
+     *
+     * @param RegistrationRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login (Request $request)
     {
         $user = new User();
@@ -42,17 +53,23 @@ class AuthController extends Controller
             if ($this->hash->check($request['password'], $thisUser['password'])) {
                 $token = $thisUser->createToken('Laravel Password Grant Client')->accessToken;
                 $response = ['token' => $token];
-                return response($response, 200);
+                return $this->response->json($response, 200);
             } else {
                 $response = "Password mismatch";
-                return response($response, 422);
+                return $this->response->json($response, 422);
             }
         } else {
             $response = 'User does not exist';
-            return response($response, 422);
+            return $this->response->json($response, 422);
         }
     }
 
+    /**
+     * Logs out the user
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout (Request $request)
     {
         $token = $request->user()->token();
@@ -61,6 +78,6 @@ class AuthController extends Controller
 
         $response = 'You have been successfully logged out!';
 
-        return response($response, 200);
+        return $this->response->json($response, 200);
     }
 }
