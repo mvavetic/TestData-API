@@ -13,8 +13,19 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * Validation instance.
+     *
+     * @var Validation
+     */
     protected $validation;
 
+
+    /**
+     * Hashing instance.
+     *
+     * @var Validation
+     */
     protected $hash;
 
     public function __construct(Validation $validation, Hash $hash)
