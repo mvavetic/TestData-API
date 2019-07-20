@@ -54,11 +54,11 @@ class AuthController extends Controller
                 return new JsonResponse($response, HttpStatusCode::HTTP_OK);
             } else {
                 $response = "Password mismatch";
-                return new JsonResponse($response, HttpStatusCode::HTTP_UNPROCESSABLE_ENTITY);
+                return new JsonResponse($response, HttpStatusCode::HTTP_BAD_REQUEST);
             }
         } else {
             $response = 'User does not exist';
-            return new JsonResponse($response, HttpStatusCode::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse($response, HttpStatusCode::HTTP_BAD_REQUEST);
         }
     }
 
