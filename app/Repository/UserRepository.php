@@ -16,8 +16,8 @@ class UserRepository
     {
         $user = new User();
 
-        $user->email    = $data['email'];
-        $user->name     = $data['name'];
+        $user->email = $data['email'];
+        $user->name = $data['name'];
         $user->password = $data['password'];
 
         $user->save();

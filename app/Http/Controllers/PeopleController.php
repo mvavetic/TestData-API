@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repository\PeopleRepository;
 use App\Http\Resources\PeopleResource;
-use App\Http\Requests\PeopleRequest;
+use App\Http\Requests\PeopleListRequest;
 use Illuminate\Http\JsonResponse;
 use App\Enums\HttpStatusCode;
 use App\Enums\DataFormat;
@@ -15,10 +15,10 @@ class PeopleController extends Controller
      * Get requested number of people
      *
      * @param \App\Repository\PeopleRepository $peopleRepository
-     * @param \App\Http\Requests\PeopleRequest $request
+     * @param \App\Http\Requests\PeopleListRequest $request
      * @return object
      */
-    public function show(PeopleRepository $peopleRepository, PeopleRequest $request) : object
+    public function index(PeopleRepository $peopleRepository, PeopleListRequest $request) : object
     {
         $data = $request->validateData();
 
