@@ -1,1 +1,1 @@
-# Contacts-API
+# People-API
