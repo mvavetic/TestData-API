@@ -22,7 +22,7 @@ class AuthController extends Controller
     {
         $data = $request->validateData();
 
-        $this->hash->make($data['password']);
+        $data['password'] = $this->hash->make($data['password']);
 
         $userRepository = new UserRepository();
 

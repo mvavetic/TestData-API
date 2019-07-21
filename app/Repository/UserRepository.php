@@ -25,12 +25,18 @@ class UserRepository
         return $user;
     }
 
-    public function findByEmail(string $email) : User
+    /**
+     * Find user by email.
+     *
+     * @param  string $email
+     * @return \App\Models\User
+     */
+    public function findByEmail(string $email)
     {
         $user = new User();
 
-        $user->where('email', $email)->first();
+        $thisUser = $user->where('email', $email)->first();
 
-        return $user;
+        return $thisUser;
     }
 }

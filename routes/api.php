@@ -15,5 +15,6 @@ Route::post('register', 'AuthController@register')->name('register');
 Route::post('login', 'AuthController@login')->name('login');
 
 Route::group(['middleware' => 'auth:api'], function() {
+    Route::post('people/list', 'PeopleController@show');
     Route::get('logout', 'AuthController@logout')->name('logout');
 });

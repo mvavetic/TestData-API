@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class PeopleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,21 +24,21 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required'
+            'count' => 'required|numeric',
+            'data_format' => 'required|string|'
         ];
     }
 
     /**
-     * Validates user data and returns array of data
+     * Validate given data and return array
      *
      * @return array
      */
     public function validateData()
     {
         $input = [
-            'email' => $this->input('email'),
-            'password' => $this->input('password')
+            'count' => $this->input('count'),
+            'data_format' => $this->input('data_format')
         ];
 
         return $input;
