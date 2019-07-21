@@ -38,9 +38,9 @@ class RegistrationRequest extends FormRequest
     public function validateData()
     {
         $input = [
-            'name' => $this->get('name'),
-            'email' => $this->get('email'),
-            'password' => $this->get('password')
+            'name' => $this->input('name'),
+            'email' => $this->input('email'),
+            'password' => $this->input('password')
         ];
         return $input;
     }

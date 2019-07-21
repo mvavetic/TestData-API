@@ -37,8 +37,8 @@ class LoginRequest extends FormRequest
     public function validateData()
     {
         $input = [
-            'email' => $this->get('email'),
-            'password' => $this->get('password')
+            'email' => $this->input('email'),
+            'password' => $this->input('password')
         ];
         return $input;
     }
