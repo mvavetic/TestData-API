@@ -29,8 +29,8 @@ class PeopleController extends Controller
             if ($data['data_format'] === DataFormat::JSON) {
                 return new JsonResponse($peopleMapper->collection($people), HttpStatusCode::HTTP_OK);
             } elseif ($data['data_format'] === DataFormat::XML) {
-                $content = $this->responseFactory->view('xml', compact('people'))->header('Content-Type', 'text/xml');
-                return $content;
+                $xmlResponse = $this->responseFactory->view('xml', compact('people'))->header('Content-Type', 'text/xml');
+                return $xmlResponse;
             } else {
                 return new JsonResponse("Only JSON and XML are acceptable data formats.", HttpStatusCode::HTTP_BAD_REQUEST);
             }
