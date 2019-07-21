@@ -26,7 +26,7 @@ class PeopleController extends Controller
 
         $people = $peopleRepository->findAll($data['count']);
 
-        if (! $people === null) {
+        if ($people->count() > null) {
             if ($data['data_format'] === DataFormat::JSON) {
                 $peopleMapper = new PeopleResource($people);
                 return new JsonResponse($peopleMapper->collection($people), HttpStatusCode::HTTP_OK);

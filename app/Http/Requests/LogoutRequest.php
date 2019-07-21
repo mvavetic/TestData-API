@@ -17,6 +17,17 @@ class LogoutRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+        ];
+    }
+
+    /**
      * Gets user's token and returns it
      *
      * @return string
