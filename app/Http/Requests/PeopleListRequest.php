@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\DataFormat;
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class PeopleListRequest extends FormRequest
 {
@@ -25,7 +27,7 @@ class PeopleListRequest extends FormRequest
     {
         return [
             'count' => 'required|numeric',
-            'data_format' => 'required|string|in:XML,JSON'
+            'data_format' => 'required|string|enum_value:' . DataFormat::class
         ];
     }
 

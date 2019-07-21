@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\ExceptionError;
 use App\Http\Controllers\Controller;
 use App\Repositories\PeopleRepository;
 use App\Http\Resources\PeopleResource;
@@ -25,16 +26,16 @@ class PeopleController extends Controller
 
         $people = $peopleRepository->findAll($data['count']);
 
-        if ($people) {
+        if (! $people === null) {
             if ($data['data_format'] === DataFormat::JSON) {
                 $peopleMapper = new PeopleResource($people);
                 return new JsonResponse($peopleMapper->collection($people), HttpStatusCode::HTTP_OK);
             } elseif ($data['data_format'] === DataFormat::XML) {
                 $xmlResponse = $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
                 return $xmlResponse;
-            } else {
-                return new JsonResponse("No people found in database.", HttpStatusCode::HTTP_BAD_REQUEST);
             }
+        } else {
+            return new JsonResponse(ExceptionError::getDescription(ExceptionError::ERR_PEOPLE_NOT_FOUND), HttpStatusCode::HTTP_BAD_REQUEST);
         }
     }
 }
