@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LogoutRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
-use App\Repository\UserRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use App\Enums\HttpStatusCode;
 

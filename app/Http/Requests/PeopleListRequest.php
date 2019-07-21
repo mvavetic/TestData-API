@@ -25,7 +25,7 @@ class PeopleListRequest extends FormRequest
     {
         return [
             'count' => 'required|numeric',
-            'data_format' => 'required|string|'
+            'data_format' => 'required|string|in:XML,JSON'
         ];
     }
 

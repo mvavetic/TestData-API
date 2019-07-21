@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Repository\PeopleRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\PeopleRepository;
 use App\Http\Resources\PeopleResource;
 use App\Http\Requests\PeopleListRequest;
 use Illuminate\Http\JsonResponse;
@@ -14,28 +15,26 @@ class PeopleController extends Controller
     /**
      * Get requested number of people
      *
-     * @param \App\Repository\PeopleRepository $peopleRepository
      * @param \App\Http\Requests\PeopleListRequest $request
+     * @param \App\Repositories\PeopleRepository $peopleRepository
      * @return object
      */
-    public function index(PeopleRepository $peopleRepository, PeopleListRequest $request) : object
+    public function index(PeopleListRequest $request, PeopleRepository $peopleRepository) : object
     {
         $data = $request->validateData();
 
         $people = $peopleRepository->findAll($data['count']);
 
         if ($people) {
-            $peopleMapper = new PeopleResource($people);
             if ($data['data_format'] === DataFormat::JSON) {
+                $peopleMapper = new PeopleResource($people);
                 return new JsonResponse($peopleMapper->collection($people), HttpStatusCode::HTTP_OK);
             } elseif ($data['data_format'] === DataFormat::XML) {
-                $xmlResponse = $this->responseFactory->view('xml', compact('people'))->header('Content-Type', 'text/xml');
+                $xmlResponse = $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
                 return $xmlResponse;
             } else {
-                return new JsonResponse("Only JSON and XML are acceptable data formats.", HttpStatusCode::HTTP_BAD_REQUEST);
+                return new JsonResponse("No people found in database.", HttpStatusCode::HTTP_BAD_REQUEST);
             }
-        } else {
-            return new JsonResponse("No people found in database.", HttpStatusCode::HTTP_BAD_REQUEST);
         }
     }
 }
