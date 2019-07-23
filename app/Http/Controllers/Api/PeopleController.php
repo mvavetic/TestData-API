@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\ExceptionError;
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Repositories\PeopleRepository;
 use App\Http\Resources\PeopleResource;
@@ -20,6 +21,7 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PeopleListRequest $request
      * @param \App\Repositories\PeopleRepository $peopleRepository
      * @return object
+     * @throws NotFoundException
      */
     public function index(PeopleListRequest $request, PeopleRepository $peopleRepository) : object
     {
@@ -36,7 +38,7 @@ class PeopleController extends Controller
                 return $xmlResponse;
             }
         } else {
-            return new JsonResponse(ExceptionError::getDescription(ExceptionError::ERR_PEOPLE_NOT_FOUND), HttpStatusCode::HTTP_BAD_REQUEST);
+            throw new NotFoundException('No people found in database.', HttpStatusCode::HTTP_BAD_REQUEST);
         }
     }
 
@@ -46,6 +48,7 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PeopleInfoRequest $request
      * @param \App\Repositories\PeopleRepository $peopleRepository
      * @return object
+     * @throws NotFoundException
      */
     public function show(PeopleInfoRequest $request, PeopleRepository $peopleRepository) : object
     {
@@ -62,7 +65,7 @@ class PeopleController extends Controller
                 return $xmlResponse;
             }
         } else {
-            return new JsonResponse(ExceptionError::getDescription(ExceptionError::ERR_PERSON_NOT_FOUND), HttpStatusCode::HTTP_BAD_REQUEST);
+            throw new NotFoundException('Person not found.', HttpStatusCode::HTTP_BAD_REQUEST);
         }
     }
 }

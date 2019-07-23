@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use App\Enums\HttpStatusCode;
+use App\Enums\ExceptionError;
 
 class Handler extends ExceptionHandler
 {
@@ -42,7 +45,7 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+
      */
     public function render($request, Exception $exception)
     {
