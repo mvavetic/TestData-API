@@ -4,9 +4,6 @@ namespace Tests\Feature;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
-use App\Enums\DataFormat;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PeopleListTest extends TestCase
 {
@@ -22,7 +19,7 @@ class PeopleListTest extends TestCase
             'data_format' => "JSON"
         ];
 
-        $response = $this->json('POST', '/api/people/list', $data);
+        $response = $this->json('POST', '/api/people.list', $data);
 
         $response->assertStatus(Response::HTTP_OK);
     }
@@ -39,7 +36,7 @@ class PeopleListTest extends TestCase
             'data_format' => "DE"
         ];
 
-        $response = $this->json('POST', '/api/people/list', $data);
+        $response = $this->json('POST', '/api/people.list', $data);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -56,7 +53,7 @@ class PeopleListTest extends TestCase
             'data_format' => "XML"
         ];
 
-        $response = $this->json('POST', '/api/people/list', $data);
+        $response = $this->json('POST', '/api/people.list', $data);
 
         $response->assertViewIs('XML.people.list');
 

@@ -2,21 +2,66 @@
 
 namespace Tests\Feature;
 
+use App\Repositories\PeopleRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class PeopleInfoTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    /** @test */
+    public function an_authenticated_user_can_search_for_a_person()
     {
-        $response = $this->get('/');
+        $user = factory('App\Models\User')->create();
 
-        $response->assertStatus(200);
+        $this->actingAs($user, 'api');
+
+        $data = [
+            'id' => 1,
+            'data_format' => "JSON"
+        ];
+
+        $response = $this->json('POST', '/api/people.info', $data);
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /** @test */
+    public function expect_internal_server_error_if_person_is_not_found()
+    {
+        $user = factory('App\Models\User')->create();
+
+        $this->actingAs($user, 'api');
+
+        $data = [
+            'id' => 999,
+            'data_format' => "JSON"
+        ];
+
+        $peopleRepository = new PeopleRepository();
+
+        $person = $peopleRepository->findById($data['id']);
+
+        $response = $this->json('POST', '/api/people.info', $data);
+
+        $this->assertNull($person);
+
+        $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /** @test */
+    public function expect_bad_request_if_no_id_provided()
+    {
+        $user = factory('App\Models\User')->create();
+
+        $this->actingAs($user, 'api');
+
+        $data = [
+            'data_format' => "JSON"
+        ];
+
+        $response = $this->json('POST', '/api/people.info', $data);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
