@@ -31,6 +31,18 @@ class PeopleInfoRequest extends FormRequest
     }
 
     /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'data_format.enum_value' => 'Invalid data format. Data formats supported: JSON and XML'
+        ];
+    }
+
+    /**
      * Validate given data and return array
      *
      * @return array
