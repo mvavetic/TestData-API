@@ -24,6 +24,7 @@ class PersonCreateTest extends TestCase
             'nickname' => $this->faker->name,
             'birth_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
         ];
+        
         $response = $this->json('POST', 'api/person.create', $array);
 
         $response->assertStatus(Response::HTTP_OK)
@@ -42,6 +43,7 @@ class PersonCreateTest extends TestCase
             'nickname' => $this->faker->name,
             'birth_date' => $this->faker->date($format = 'Y-m-d'),
         ];
+
         $response = $this->json('POST', 'api/person.create', $array);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);

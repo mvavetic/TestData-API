@@ -14,7 +14,6 @@ class PersonUpdateTest extends TestCase
     /** @test */
     public function a_person_can_be_updated()
     {
-
         $user = factory('App\Models\User')->create();
 
         $this->actingAs($user, 'api');
@@ -30,7 +29,6 @@ class PersonUpdateTest extends TestCase
         $peopleRepository = new PeopleRepository();
 
         $update = $peopleRepository->update($array);
-
 
         $this->assertEquals($array['first_name'], $update->first_name);
 
