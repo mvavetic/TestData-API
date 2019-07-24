@@ -6,7 +6,6 @@ use App\Repositories\PeopleRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-
 class PeopleInfoTest extends TestCase
 {
     /** @test */
@@ -27,7 +26,7 @@ class PeopleInfoTest extends TestCase
     }
 
     /** @test */
-    public function expect_internal_server_error_if_person_is_not_found()
+    public function expect_not_found_error_if_person_is_not_found()
     {
         $user = factory('App\Models\User')->create();
 
@@ -46,7 +45,7 @@ class PeopleInfoTest extends TestCase
 
         $this->assertNull($person);
 
-        $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /** @test */
@@ -60,7 +59,7 @@ class PeopleInfoTest extends TestCase
             'data_format' => "JSON"
         ];
 
-        $response = $this->json('POST', '/api/people.info', $data);
+        $response = $this->json('POST', '/api/person.info', $data);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }

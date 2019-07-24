@@ -8,14 +8,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PersonDeleteTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    /** @test */
+    public function a_person_can_be_deleted()
     {
-        $response = $this->get('/');
+        $user = factory('App\Models\User')->create();
+
+        $this->actingAs($user, 'api');
+
+        $person = factory('App\Models\People')->create();
+
+        $response = $this->json('DELETE', 'api/person.delete', ['id' => $person->id]);
+
+        $this->assertDatabaseMissing('people',['id' => $person->id]);
 
         $response->assertStatus(200);
     }
