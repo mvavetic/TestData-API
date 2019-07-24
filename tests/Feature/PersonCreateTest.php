@@ -24,10 +24,11 @@ class PersonCreateTest extends TestCase
             'nickname' => $this->faker->name,
             'birth_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
         ];
-        
+
         $response = $this->json('POST', 'api/person.create', $array);
 
-        $response->assertStatus(Response::HTTP_OK)
+        $response
+            ->assertStatus(Response::HTTP_OK)
             ->assertJsonFragment(['first_name' => $array['first_name'],
             ]);
     }

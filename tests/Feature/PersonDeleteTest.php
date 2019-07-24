@@ -3,8 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 
 class PersonDeleteTest extends TestCase
 {
@@ -19,8 +18,8 @@ class PersonDeleteTest extends TestCase
 
         $response = $this->json('DELETE', 'api/person.delete', ['id' => $person->id]);
 
-        $this->assertDatabaseMissing('people',['id' => $person->id]);
+        $this->assertDatabaseMissing('people', ['id' => $person->id]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 }
