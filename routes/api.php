@@ -17,5 +17,8 @@ Route::get('logout', 'Auth\AuthController@logout')->name('logout')->middleware('
 
 Route::group(['middleware' => 'auth:api', 'cors'], function() {
     Route::post('people.list', 'Api\PeopleController@index');
-    Route::post('people.info', 'Api\PeopleController@show');
+    Route::post('person.info', 'Api\PeopleController@show');
+    Route::post('person.create', 'Api\PeopleController@create');
+    Route::patch('person.update', 'Api\PeopleController@update');
+    Route::delete('person.delete', 'Api\PeopleController@destroy');
 });
