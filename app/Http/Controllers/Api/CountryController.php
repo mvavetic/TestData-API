@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\HttpStatusCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CountryListRequest;
+use App\Interfaces\ReturnTypeInterface;
 use App\Services\CountryService;
 
 class CountryController extends Controller
@@ -14,9 +14,9 @@ class CountryController extends Controller
      *
      * @param CountryListRequest $request
      * @param CountryService $countryService
-     * @return mixed
+     * @return ReturnTypeInterface
      */
-    public function index(CountryListRequest $request, CountryService $countryService)
+    public function index(CountryListRequest $request, CountryService $countryService) : ReturnTypeInterface
     {
         $data = $request->validateData();
 

@@ -7,6 +7,7 @@ use App\Enums\HttpStatusCode;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PeopleResource;
+use App\Interfaces\ReturnTypeInterface;
 use App\Repositories\PeopleRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -16,10 +17,10 @@ class PeopleService extends Controller
      * Get requested number of people
      *
      * @param array $data
-     * @return mixed
+     * @return ReturnTypeInterface
      * @throws
      */
-    public function findAll(array $data)
+    public function findAll(array $data) : ReturnTypeInterface
     {
         $peopleRepository = new PeopleRepository();
 
@@ -43,9 +44,9 @@ class PeopleService extends Controller
      * Get a single person
      *
      * @param array $data
-     * @return mixed
+     * @return ReturnTypeInterface
      */
-    public function findOne(array $data)
+    public function findOne(array $data) : ReturnTypeInterface
     {
         $peopleRepository = new PeopleRepository();
 
@@ -64,9 +65,9 @@ class PeopleService extends Controller
      * Create a person
      *
      * @param array $data
-     * @return mixed
+     * @return JsonResponse
      */
-    public function create(array $data)
+    public function create(array $data) : JsonResponse
     {
         $peopleRepository = new PeopleRepository();
 
@@ -81,9 +82,9 @@ class PeopleService extends Controller
      * Update a person
      *
      * @param array $data
-     * @return mixed
+     * @return JsonResponse
      */
-    public function update(array $data)
+    public function update(array $data) : JsonResponse
     {
         $peopleRepository = new PeopleRepository();
 
@@ -98,9 +99,9 @@ class PeopleService extends Controller
      * Delete a person
      *
      * @param array $data
-     * @return mixed
+     * @return JsonResponse
      */
-    public function delete(array $data)
+    public function delete(array $data) : JsonResponse
     {
         $peopleRepository = new PeopleRepository();
 

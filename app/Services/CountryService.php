@@ -6,6 +6,7 @@ use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CountryResource;
+use App\Interfaces\ReturnTypeInterface;
 use App\Repositories\CountryRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -15,9 +16,9 @@ class CountryService extends Controller
      * Get all countries
      *
      * @param array $data
-     * @return mixed
+     * @return ReturnTypeInterface
      */
-    public function findAll(array $data)
+    public function findAll(array $data) : ReturnTypeInterface
     {
         $countryRepository = new CountryRepository();
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\ReturnTypeInterface;
 use App\Services\PeopleService;
+use http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
 use App\Http\Requests\PeopleInfoRequest;
@@ -18,10 +20,10 @@ class PeopleController extends Controller
      *
      * @param \App\Http\Requests\PeopleListRequest $request
      * @param \App\Services\PeopleService $peopleService
-     * @return mixed
+     * @return ReturnTypeInterface
      * @throws
      */
-    public function index(PeopleListRequest $request, PeopleService $peopleService)
+    public function index(PeopleListRequest $request, PeopleService $peopleService) : ReturnTypeInterface
     {
         $data = $request->validateData();
 
@@ -33,9 +35,9 @@ class PeopleController extends Controller
      *
      * @param \App\Http\Requests\PeopleInfoRequest $request
      * @param \App\Services\PeopleService $peopleService
-     * @return mixed
+     * @return ReturnTypeInterface
      */
-    public function show(PeopleInfoRequest $request, PeopleService $peopleService)
+    public function show(PeopleInfoRequest $request, PeopleService $peopleService) : ReturnTypeInterface
     {
         $data = $request->validateData();
 
