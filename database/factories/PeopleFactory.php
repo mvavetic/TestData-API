@@ -22,6 +22,7 @@ $factory->define(People::class, function (Faker $faker) {
         'first_name' => $faker->name,
         'last_name' => $faker->name,
         'nickname' => $faker->name,
-        'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now')
+        'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'country' => rand(1,250),
     ];
 });

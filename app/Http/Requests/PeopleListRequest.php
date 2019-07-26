@@ -26,6 +26,7 @@ class PeopleListRequest extends FormRequest
     {
         return [
             'count' => 'required|numeric',
+            'loadWith' => 'string',
             'data_format' => 'required|string|enum_value:' . DataFormat::class
         ];
     }
@@ -51,9 +52,10 @@ class PeopleListRequest extends FormRequest
     {
         $input = [
             'count' => $this->input('count'),
+            'loadWith' => $this->input('loadWith'),
             'data_format' => $this->input('data_format')
         ];
 
-        return $input;
+        return array_filter($input);
     }
 }

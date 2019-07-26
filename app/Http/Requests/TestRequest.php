@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\DataFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PeopleInfoRequest extends FormRequest
+class TestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

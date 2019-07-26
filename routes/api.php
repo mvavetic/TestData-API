@@ -21,4 +21,6 @@ Route::group(['middleware' => 'auth:api', 'cors'], function() {
     Route::post('person.create', 'Api\PeopleController@create');
     Route::patch('person.update', 'Api\PeopleController@update');
     Route::delete('person.delete', 'Api\PeopleController@destroy');
+    Route::get('countries.list', 'Api\CountryController@index');
+    Route::post('test', 'Api\PeopleController@test');
 });

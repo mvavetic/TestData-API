@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CountryResource;
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\NotFoundException;
 use App\Repositories\PeopleRepository;
@@ -15,6 +16,7 @@ use App\Http\Requests\PersonDeleteRequest;
 use App\Enums\HttpStatusCode;
 use App\Enums\DataFormat;
 use Psy\Util\Json;
+use App\Http\Requests\TestRequest;
 
 class PeopleController extends Controller
 {
@@ -59,16 +61,12 @@ class PeopleController extends Controller
 
         $person = $peopleRepository->findById($data['id']);
 
-        if ($person) {
-            if ($data['data_format'] === DataFormat::JSON) {
-                $peopleMapper = new PeopleResource($person);
-                return new JsonResponse($peopleMapper, HttpStatusCode::HTTP_OK);
-            } elseif ($data['data_format'] === DataFormat::XML) {
-                $xmlResponse = $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
-                return $xmlResponse;
-            }
-        } else {
-            throw new NotFoundException('Person not found.', HttpStatusCode::HTTP_BAD_REQUEST);
+        if ($data['data_format'] === DataFormat::JSON) {
+            $peopleMapper = new PeopleResource($person);
+            return new JsonResponse($peopleMapper, HttpStatusCode::HTTP_OK);
+        } elseif ($data['data_format'] === DataFormat::XML) {
+            $xmlResponse = $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
+            return $xmlResponse;
         }
     }
 

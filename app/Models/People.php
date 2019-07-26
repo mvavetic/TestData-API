@@ -14,4 +14,14 @@ class People extends Model
     protected $fillable = [
         'first_name', 'last_name', 'nickname', 'birth_date'
     ];
+
+    /**
+     * Get country from which person originates
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function fromCountry()
+    {
+        return $this->belongsTo('App\Models\Country', 'country');
+    }
 }
