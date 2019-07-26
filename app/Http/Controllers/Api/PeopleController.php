@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CountryResource;
+use App\Services\PeopleService;
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\NotFoundException;
 use App\Repositories\PeopleRepository;
@@ -15,8 +15,6 @@ use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Requests\PersonDeleteRequest;
 use App\Enums\HttpStatusCode;
 use App\Enums\DataFormat;
-use Psy\Util\Json;
-use App\Http\Requests\TestRequest;
 
 class PeopleController extends Controller
 {
@@ -24,27 +22,15 @@ class PeopleController extends Controller
      * Get requested number of people
      *
      * @param \App\Http\Requests\PeopleListRequest $request
-     * @param \App\Repositories\PeopleRepository $peopleRepository
-     * @return object
-     * @throws NotFoundException
+     * @param \App\Services\PeopleService $peopleService
+     * @return mixed
+     * @throws
      */
-    public function index(PeopleListRequest $request, PeopleRepository $peopleRepository) : object
+    public function index(PeopleListRequest $request, PeopleService $peopleService)
     {
         $data = $request->validateData();
 
-        $people = $peopleRepository->findAll($data['count']);
-
-        if ($people->count() > null) {
-            if ($data['data_format'] === DataFormat::JSON) {
-                $peopleMapper = new PeopleResource($people);
-                return new JsonResponse($peopleMapper->collection($people), HttpStatusCode::HTTP_OK);
-            } elseif ($data['data_format'] === DataFormat::XML) {
-                $xmlResponse = $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
-                return $xmlResponse;
-            }
-        } else {
-            throw new NotFoundException('No people found in database.', HttpStatusCode::HTTP_BAD_REQUEST);
-        }
+        return $peopleService->findAll($data);
     }
 
     /**
@@ -53,7 +39,6 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PeopleInfoRequest $request
      * @param \App\Repositories\PeopleRepository $peopleRepository
      * @return object
-     * @throws NotFoundException
      */
     public function show(PeopleInfoRequest $request, PeopleRepository $peopleRepository) : object
     {
@@ -63,7 +48,8 @@ class PeopleController extends Controller
 
         if ($data['data_format'] === DataFormat::JSON) {
             $peopleMapper = new PeopleResource($person);
-            return new JsonResponse($peopleMapper, HttpStatusCode::HTTP_OK);
+            $filter = $data['loadWith'] === 'country' ? $peopleMapper : $peopleMapper->makeHidden('country');
+            return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
         } elseif ($data['data_format'] === DataFormat::XML) {
             $xmlResponse = $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
             return $xmlResponse;
@@ -97,7 +83,7 @@ class PeopleController extends Controller
      */
     public function update(PersonUpdateRequest $request, PeopleRepository $peopleRepository) : JsonResponse
     {
-        $data = array_filter($request->validateData());
+        $data = $request->validateData();
 
         $person = $peopleRepository->update($data);
 

@@ -26,7 +26,7 @@ class PeopleInfoRequest extends FormRequest
     {
         return [
             'id' => 'required|integer',
-            'loadWith' => 'string',
+            'loadWith' => 'string|in:country',
             'data_format' => 'required|string|enum_value:' . DataFormat::class
         ];
     }
@@ -39,6 +39,7 @@ class PeopleInfoRequest extends FormRequest
     public function messages()
     {
         return [
+            'loadWith.in' => 'You can only load with country.',
             'data_format.enum_value' => 'Invalid data format. Data formats supported: JSON and XML'
         ];
     }
@@ -56,6 +57,6 @@ class PeopleInfoRequest extends FormRequest
             'data_format' => $this->input('data_format')
         ];
 
-        return array_filter($input);
+        return $input;
     }
 }

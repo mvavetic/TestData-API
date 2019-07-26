@@ -1,6 +1,6 @@
 <people>
 
-@foreach ($people as $person)
+@foreach ($xmlFilter as $person)
 
 <person>
     <id>{{ $person->id }}</id>
@@ -8,6 +8,7 @@
     <last_name>{{ $person->last_name }}</last_name>
     <nickname>{{ $person->nickname }}</nickname>
     <birth_date>{{ $person->birth_date }}</birth_date>
+    <country>{{ $person->fromCountry->name }}</country>
 </person>
 
 @endforeach

@@ -47,6 +47,6 @@ class PersonUpdateRequest extends FormRequest
             'birth_date' => $this->input('birth_date'),
         ];
 
-        return $input;
+        return array_filter($input);
     }
 }

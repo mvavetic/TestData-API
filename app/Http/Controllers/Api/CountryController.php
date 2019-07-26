@@ -10,6 +10,12 @@ use Illuminate\Http\JsonResponse;
 
 class CountryController extends Controller
 {
+    /**
+     * Get all countries
+     *
+     * @param CountryRepository $countryRepository
+     * @return JsonResponse
+     */
     public function index(CountryRepository $countryRepository)
     {
         $countries = $countryRepository->findAll();

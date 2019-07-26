@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Excludable;
 use Illuminate\Database\Eloquent\Model;
 
 class People extends Model
@@ -13,6 +14,15 @@ class People extends Model
      */
     protected $fillable = [
         'first_name', 'last_name', 'nickname', 'birth_date'
+    ];
+
+    /**
+     * The attributes that are hidden.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at'
     ];
 
     /**
