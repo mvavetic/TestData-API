@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use GuzzleHttp\Client;
 use App\Models\Country;
 
-class GetCountries extends Command
+class GetCountriesCommand extends Command
 {
     /**
      * The name and signature of the console command.

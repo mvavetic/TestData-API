@@ -4,24 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\HttpStatusCode;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CountryResource;
-use App\Repositories\CountryRepository;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\CountryListRequest;
+use App\Services\CountryService;
 
 class CountryController extends Controller
 {
     /**
      * Get all countries
      *
-     * @param CountryRepository $countryRepository
-     * @return JsonResponse
+     * @param CountryListRequest $request
+     * @param CountryService $countryService
+     * @return mixed
      */
-    public function index(CountryRepository $countryRepository)
+    public function index(CountryListRequest $request, CountryService $countryService)
     {
-        $countries = $countryRepository->findAll();
+        $data = $request->validateData();
 
-        $countriesMapper = new CountryResource($countries);
-
-        return new JsonResponse($countriesMapper->collection($countries), HttpStatusCode::HTTP_OK);
+        return $countryService->findAll($data);
     }
 }

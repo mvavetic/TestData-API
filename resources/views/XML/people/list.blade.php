@@ -1,6 +1,6 @@
 <people>
 
-@foreach ($xmlFilter as $person)
+@foreach ($people as $person)
 
 <person>
     <id>{{ $person->id }}</id>
