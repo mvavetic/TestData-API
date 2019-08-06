@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class BaseRepository implements BaseRepositoryInterface
+class BaseRepository
 {
     /**
      * Model to be used
