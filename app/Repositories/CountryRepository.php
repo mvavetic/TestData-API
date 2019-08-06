@@ -6,7 +6,7 @@ use App\Models\Country;
 
 class CountryRepository
 {
-    /**
+    /*
      * Get all countries
      *
      * @return object
