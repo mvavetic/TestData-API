@@ -24,15 +24,24 @@ class Controller extends BaseController
     protected $responseFactory;
 
     /**
+     * Hash instance.
+     *
+     * @var $hash
+     */
+    protected $hash;
+
+    /**
      * Create new controller instance
      *
      * @param  \Illuminate\Validation\Factory  $validation
      * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+     * @param Hash $hash
      * @return void
      */
-    public function __construct(Response $response, Validation $validation)
+    public function __construct(Response $response, Validation $validation, Hash $hash)
     {
         $this->responseFactory = $response;
         $this->validation = $validation;
+        $this->hash = $hash;
     }
 }

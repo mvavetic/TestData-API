@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\DataFormat;
+use App\Enums\HttpStatusCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CountryListRequest;
+use App\Http\Resources\CountryResource;
 use App\Interfaces\ReturnTypeInterface;
 use App\Services\CountryService;
+use Illuminate\Http\JsonResponse;
 
 class CountryController extends Controller
 {
@@ -20,6 +24,13 @@ class CountryController extends Controller
     {
         $data = $request->validateData();
 
-        return $countryService->findAll($data);
+        $countries = $countryService->findAll();
+
+        if ($data['data_format'] === DataFormat::JSON) {
+            $countriesMapper = new CountryResource($countries);
+            return new JsonResponse($countriesMapper->collection($countries), HttpStatusCode::HTTP_OK);
+        } elseif ($data['data_format'] === DataFormat::XML) {
+            return $this->responseFactory->view('XML.country.list', compact('countries'))->header('Content-Type', 'text/xml');
+        }
     }
 }

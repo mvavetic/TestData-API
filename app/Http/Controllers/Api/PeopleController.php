@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\DataFormat;
+use App\Enums\HttpStatusCode;
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PeopleResource;
 use App\Interfaces\ReturnTypeInterface;
 use App\Services\PeopleService;
-use http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
 use App\Http\Requests\PeopleInfoRequest;
@@ -27,7 +30,19 @@ class PeopleController extends Controller
     {
         $data = $request->validateData();
 
-        return $peopleService->findAll($data);
+        $people = $peopleService->findAll($data);
+
+        if ($people->count() > null) {
+            if ($data['data_format'] === DataFormat::JSON) {
+                $peopleResource = new PeopleResource($people);
+                $filter = $data['loadWith'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country');
+                return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
+            } elseif ($data['data_format'] === DataFormat::XML) {
+                return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
+            }
+        } else {
+            throw new NotFoundException('No people found in database.', HttpStatusCode::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -41,7 +56,14 @@ class PeopleController extends Controller
     {
         $data = $request->validateData();
 
-        return $peopleService->findOne($data);
+        $person = $peopleService->findOne($data);
+
+        if ($data['data_format'] === DataFormat::JSON) {
+            $peopleMapper = new PeopleResource($person);
+            return new JsonResponse($peopleMapper, HttpStatusCode::HTTP_OK);
+        } elseif ($data['data_format'] === DataFormat::XML) {
+            return $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
+        }
     }
 
     /**
@@ -55,7 +77,11 @@ class PeopleController extends Controller
     {
         $data = $request->validateData();
 
-        return $peopleService->create($data);
+        $person = $peopleService->create($data);
+
+        $personMapper = new PeopleResource($person);
+
+        return new JsonResponse($personMapper, HttpStatusCode::HTTP_OK);
     }
 
     /**
@@ -69,7 +95,11 @@ class PeopleController extends Controller
     {
         $data = $request->validateData();
 
-        return $peopleService->update($data);
+        $person = $peopleService->update($data);
+
+        $personMapper = new PeopleResource($person);
+
+        return new JsonResponse($personMapper, HttpStatusCode::HTTP_OK);
     }
 
     /**
@@ -83,6 +113,8 @@ class PeopleController extends Controller
     {
         $data = $request->validateData();
 
-        return $peopleService->delete($data);
+        $peopleService->delete($data);
+
+        return new JsonResponse("Person with id " . $data['id'] . " deleted successfully.", HttpStatusCode::HTTP_OK);
     }
 }
