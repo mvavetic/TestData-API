@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\Excludable;
+use App\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class People extends Model
+class People extends Model implements BaseRepositoryInterface
 {
     /**
      * The attributes that are mass assignable.

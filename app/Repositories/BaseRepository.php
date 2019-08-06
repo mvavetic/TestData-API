@@ -2,10 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\BaseRepositoryInterface;
+use Faker\Provider\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-class BaseRepository
+class BaseRepository implements BaseRepositoryInterface
 {
     /**
      * Model to be used
@@ -28,9 +30,9 @@ class BaseRepository
      * Create a new record
      *
      * @param array $data
-     * @return object
+     * @return BaseRepositoryInterface
      */
-    public function create(array $data)
+    public function create(array $data) : BaseRepositoryInterface
     {
         return $this->model->create($data);
     }
@@ -41,7 +43,7 @@ class BaseRepository
      * @param array $data
      * @return bool
      */
-    public function update(array $data)
+    public function update(array $data) : bool
     {
         return $this->model->update($data);
     }
@@ -52,7 +54,7 @@ class BaseRepository
      * @param int $id
      * @return bool
      */
-    public function delete(int $id)
+    public function delete(int $id) : bool
     {
         return $this->model->destroy($id);
     }
@@ -61,9 +63,9 @@ class BaseRepository
      * Retrieve wanted amount of records
      *
      * @param int $number
-     * @return Collection
+     * @return BaseRepositoryInterface
      */
-    public function paginate(int $number = 15)
+    public function paginate(int $number = 15) : BaseRepositoryInterface
     {
         return $this->model->limit($number)->get();
     }
@@ -71,9 +73,9 @@ class BaseRepository
     /**
      * Retrieve all records
      *
-     * @return Collection
+     * @return BaseRepositoryInterface
      */
-    public function findAll()
+    public function findAll() : BaseRepositoryInterface
     {
         return $this->model->get();
     }
@@ -82,9 +84,9 @@ class BaseRepository
      * Retrieve a single record by ID
      *
      * @param int $id
-     * @return object
+     * @return BaseRepositoryInterface
      */
-    public function findById(int $id)
+    public function findById(int $id) : BaseRepositoryInterface
     {
         return $this->model->find($id);
     }

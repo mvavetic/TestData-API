@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Country extends Model implements BaseRepositoryInterface
 {
     /**
      * The table associated with the model.
