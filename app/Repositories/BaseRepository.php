@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\BaseRepositoryInterface;
+use App\Interfaces\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository
@@ -28,9 +29,9 @@ class BaseRepository
      * Create a new record
      *
      * @param array $data
-     * @return BaseRepositoryInterface
+     * @return ModelInterface
      */
-    public function create(array $data) : BaseRepositoryInterface
+    public function create(array $data) : ModelInterface
     {
         return $this->model->create($data);
     }
@@ -61,9 +62,9 @@ class BaseRepository
      * Retrieve wanted amount of records
      *
      * @param int $number
-     * @return BaseRepositoryInterface
+     * @return ModelInterface
      */
-    public function paginate(int $number = 15) : BaseRepositoryInterface
+    public function paginate(int $number = 15) : ModelInterface
     {
         return $this->model->limit($number)->get();
     }
@@ -71,9 +72,9 @@ class BaseRepository
     /**
      * Retrieve all records
      *
-     * @return BaseRepositoryInterface
+     * @return ModelInterface
      */
-    public function findAll() : BaseRepositoryInterface
+    public function findAll() : ModelInterface
     {
         return $this->model->get();
     }
@@ -82,9 +83,9 @@ class BaseRepository
      * Retrieve a single record by ID
      *
      * @param int $id
-     * @return BaseRepositoryInterface
+     * @return ModelInterface
      */
-    public function findById(int $id) : BaseRepositoryInterface
+    public function findById(int $id) : ModelInterface
     {
         return $this->model->find($id);
     }
