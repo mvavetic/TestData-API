@@ -3,9 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\BaseRepositoryInterface;
-use Faker\Provider\Base;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 
 class BaseRepository implements BaseRepositoryInterface
 {
