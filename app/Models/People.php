@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Interfaces\BaseRepositoryInterface;
+use App\Interfaces\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class People extends Model implements BaseRepositoryInterface
+class People extends Model implements ModelInterface
 {
     /**
      * The attributes that are mass assignable.

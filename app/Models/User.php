@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Interfaces\BaseRepositoryInterface;
+use App\Interfaces\ModelInterface;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements BaseRepositoryInterface
+class User extends Authenticatable implements ModelInterface
 {
     use HasApiTokens, Notifiable;
 
