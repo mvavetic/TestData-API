@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2d5e745-3e6e-4fb6-a86f-910f1ec6139c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/views/XML/people/info.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/XML/people/info.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/XML/people/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/XML/people/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +27,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/XML/people/info.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="140">
@@ -46,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="87" lean-forward="true" selection-start-line="87" selection-end-line="87" />
+            <state relative-caret-position="193">
+              <caret line="89" column="51" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
               <folding>
                 <element signature="e#44#69#0#PHP" expanded="true" />
               </folding>
@@ -140,10 +139,10 @@
         <option value="$PROJECT_DIR$/app/Models/Avatar.php" />
         <option value="$PROJECT_DIR$/app/Http/Resources/PeopleResource.php" />
         <option value="$PROJECT_DIR$/app/Services/AvatarService.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php" />
         <option value="$PROJECT_DIR$/resources/views/XML/people/list.blade.php" />
         <option value="$PROJECT_DIR$/app/Models/People.php" />
         <option value="$PROJECT_DIR$/resources/views/XML/people/info.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php" />
       </list>
     </option>
   </component>
@@ -435,12 +434,12 @@
       <workItem from="1565086085180" duration="8578000" />
       <workItem from="1565104816072" duration="2986000" />
       <workItem from="1565126952171" duration="1546000" />
-      <workItem from="1565169390498" duration="12094000" />
+      <workItem from="1565169390498" duration="12471000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131165000" />
+    <option name="totallyTimeSpent" value="131542000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -840,20 +839,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="87" lean-forward="true" selection-start-line="87" selection-end-line="87" />
-          <folding>
-            <element signature="e#44#69#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/People.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
           <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/XML/people/info.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -864,10 +860,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/XML/people/info.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+        <state relative-caret-position="193">
+          <caret line="89" column="51" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
+          <folding>
+            <element signature="e#44#69#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

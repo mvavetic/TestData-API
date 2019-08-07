@@ -84,9 +84,12 @@ class PeopleController extends Controller
 
         $avatarData = $avatarRequest->validateData();
 
-        $avatarData['person_id'] = $person->id;
+        $header_response = get_headers($avatarData['image_url'], 1);
 
-        $avatarService->create($avatarData);
+        if (strpos($header_response[0], "404") !== true) {
+            $avatarData['person_id'] = $person->id;
+            $avatarService->create($avatarData);
+        }
 
         $personMapper = new PeopleResource($person);
 
