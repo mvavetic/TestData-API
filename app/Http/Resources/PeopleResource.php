@@ -20,7 +20,8 @@ class PeopleResource extends JsonResource
             'last_name' => $this->last_name,
             'nickname' => $this->nickname,
             'birth_date' => $this->birth_date,
-            'country' => $this->fromCountry->name
+            'country' => $this->country->name,
+            'avatar' => $this->avatar->image_url
         ];
     }
 }

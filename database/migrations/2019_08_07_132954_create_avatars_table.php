@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCountriesTable extends Migration
+class CreateAvatarsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('code');
+        Schema::create('avatars', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('image_url');
+            $table->bigInteger('person_id')->unsigned()->index();
             $table->timestamps();
+
+            $table->foreign('person_id')->references('id')->on('people')->onDelete('cascade');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateCountriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('country');
+        Schema::dropIfExists('avatars');
     }
 }

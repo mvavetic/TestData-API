@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\People;
 
-class PersonCreateRequest extends FormRequest
+class AvatarUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +25,7 @@ class PersonCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'nickname' => 'required|string',
-            'birth_date' => 'required|date',
-            'country_id' => 'required|integer'
+            'avatar_url' => 'string'
         ];
     }
 
@@ -39,12 +36,13 @@ class PersonCreateRequest extends FormRequest
      */
     public function validateData()
     {
+        $personModel = new People();
+
+        $person = $personModel->find($this->input('id'));
+
         $input = [
-            'first_name' => $this->input('first_name'),
-            'last_name' => $this->input('last_name'),
-            'nickname' => $this->input('nickname'),
-            'birth_date' => $this->input('birth_date'),
-            'country_id' => $this->input('country_id')
+            'id' => $person->avatar->id,
+            'image_url' => $this->input('avatar_url'),
         ];
 
         return $input;

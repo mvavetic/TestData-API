@@ -29,6 +29,7 @@ class PersonUpdateRequest extends FormRequest
             'last_name' => 'string',
             'nickname' => 'string',
             'birth_date' => 'date',
+            'country_id' => 'integer'
         ];
     }
 
@@ -45,6 +46,7 @@ class PersonUpdateRequest extends FormRequest
             'last_name' => $this->input('last_name'),
             'nickname' => $this->input('nickname'),
             'birth_date' => $this->input('birth_date'),
+            'country_id' => $this->input('country_id')
         ];
 
         return array_filter($input);

@@ -12,7 +12,7 @@ class Country extends Model implements ModelInterface
      *
      * @var string
      */
-    protected $table = 'country';
+    protected $table = 'countries';
 
     /**
      * The attributes that are mass assignable.
@@ -30,6 +30,6 @@ class Country extends Model implements ModelInterface
      */
     public function people()
     {
-        return $this->hasMany('App\Models\People');
+        return $this->hasMany('App\Models\People', 'country_id');
     }
 }

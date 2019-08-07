@@ -6,8 +6,10 @@ use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AvatarCreateRequest;
 use App\Http\Resources\PeopleResource;
 use App\Interfaces\ReturnTypeInterface;
+use App\Services\AvatarService;
 use App\Services\PeopleService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
@@ -35,8 +37,7 @@ class PeopleController extends Controller
         if ($people->count() > null) {
             if ($data['data_format'] === DataFormat::JSON) {
                 $peopleResource = new PeopleResource($people);
-                $filter = $data['loadWith'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country');
-                return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
+                return new JsonResponse($peopleResource->collection($people), HttpStatusCode::HTTP_OK);
             } elseif ($data['data_format'] === DataFormat::XML) {
                 return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
             }
@@ -69,15 +70,23 @@ class PeopleController extends Controller
     /**
      * Create a new person
      *
-     * @param \App\Http\Requests\PersonCreateRequest $request
+     * @param \App\Http\Requests\PersonCreateRequest $personRequest
+     * @param AvatarCreateRequest $avatarRequest
      * @param \App\Services\PeopleService $peopleService
+     * @param AvatarService $avatarService
      * @return JsonResponse
      */
-    public function create(PersonCreateRequest $request, PeopleService $peopleService) : JsonResponse
+    public function create(PersonCreateRequest $personRequest, AvatarCreateRequest $avatarRequest, PeopleService $peopleService, AvatarService $avatarService) : JsonResponse
     {
-        $data = $request->validateData();
+        $personData = $personRequest->validateData();
 
-        $person = $peopleService->create($data);
+        $person = $peopleService->create($personData);
+
+        $avatarData = $avatarRequest->validateData();
+
+        $avatarData['person_id'] = $person->id;
+
+        $avatarService->create($avatarData);
 
         $personMapper = new PeopleResource($person);
 
@@ -87,15 +96,21 @@ class PeopleController extends Controller
     /**
      * Update a person
      *
-     * @param \App\Http\Requests\PersonUpdateRequest $request
+     * @param \App\Http\Requests\PersonUpdateRequest $personRequest
      * @param \App\Services\PeopleService $peopleService
+     * @param \App\Http\Requests\AvatarCreateRequest $avatarRequest
+     * @param \App\Services\AvatarService $avatarService
      * @return JsonResponse
      */
-    public function update(PersonUpdateRequest $request, PeopleService $peopleService) : JsonResponse
+    public function update(PersonUpdateRequest $personRequest, AvatarCreateRequest $avatarRequest, AvatarService $avatarService, PeopleService $peopleService) : JsonResponse
     {
-        $data = $request->validateData();
+        $personData = $personRequest->validateData();
 
-        $person = $peopleService->update($data);
+        $avatarData = $avatarRequest->validateData();
+
+        ! $avatarData['image_url'] ? null : $avatarService->update($avatarData);
+
+        $person = $peopleService->update($personData);
 
         $personMapper = new PeopleResource($person);
 
