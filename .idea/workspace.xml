@@ -2,21 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2d5e745-3e6e-4fb6-a86f-910f1ec6139c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Console/Commands/GetCitiesCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.rnd" beforeDir="false" afterPath="$PROJECT_DIR$/.rnd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GetCountries.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/GetCountriesCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/PersonCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/PersonCreateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/PersonUpdateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/PersonUpdateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/PeopleResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/PeopleResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Country.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Country.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/People.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/People.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/Service.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/PeopleFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/PeopleFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_07_25_221946_create_countries_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_07_25_221946_create_countries_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_07_25_224210_create_people_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_07_25_224210_create_people_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/XML/country/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/XML/country/list.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/XML/people/info.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/XML/people/info.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/XML/people/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/XML/people/list.blade.php" afterDir="false" />
     </list>
@@ -38,7 +23,16 @@
         <entry file="file://$PROJECT_DIR$/resources/views/XML/people/list.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="220">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+              <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/XML/people/info.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -52,14 +46,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="90" column="38" selection-start-line="90" selection-start-column="38" selection-end-line="90" selection-end-column="38" />
+            <state relative-caret-position="240">
+              <caret line="87" lean-forward="true" selection-start-line="87" selection-end-line="87" />
               <folding>
                 <element signature="e#44#69#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Models/People.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -127,20 +130,20 @@
         <option value="$PROJECT_DIR$/database/migrations/2019_08_07_093547_create_cities_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_07_25_224210_create_people_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_08_07_132954_create_avatars_table.php" />
-        <option value="$PROJECT_DIR$/resources/views/XML/people/info.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/XML/country/list.blade.php" />
         <option value="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/PersonUpdateRequest.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/AvatarUpdateRequest.php" />
         <option value="$PROJECT_DIR$/app/Models/Country.php" />
-        <option value="$PROJECT_DIR$/resources/views/XML/people/list.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/PersonCreateRequest.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/AvatarCreateRequest.php" />
         <option value="$PROJECT_DIR$/app/Models/Avatar.php" />
         <option value="$PROJECT_DIR$/app/Http/Resources/PeopleResource.php" />
-        <option value="$PROJECT_DIR$/app/Models/People.php" />
         <option value="$PROJECT_DIR$/app/Services/AvatarService.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php" />
+        <option value="$PROJECT_DIR$/resources/views/XML/people/list.blade.php" />
+        <option value="$PROJECT_DIR$/app/Models/People.php" />
+        <option value="$PROJECT_DIR$/resources/views/XML/people/info.blade.php" />
       </list>
     </option>
   </component>
@@ -432,12 +435,12 @@
       <workItem from="1565086085180" duration="8578000" />
       <workItem from="1565104816072" duration="2986000" />
       <workItem from="1565126952171" duration="1546000" />
-      <workItem from="1565169390498" duration="11943000" />
+      <workItem from="1565169390498" duration="12094000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131014000" />
+    <option name="totallyTimeSpent" value="131165000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -718,13 +721,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/XML/people/info.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/XML/country/list.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -786,13 +782,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/XML/people/list.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2019_07_25_224210_create_people_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
@@ -804,13 +793,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
           <caret line="23" column="26" lean-forward="true" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/People.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="46" column="1" lean-forward="true" selection-start-line="46" selection-start-column="1" selection-end-line="46" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -860,11 +842,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PeopleController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="90" column="38" selection-start-line="90" selection-start-column="38" selection-end-line="90" selection-end-column="38" />
+        <state relative-caret-position="240">
+          <caret line="87" lean-forward="true" selection-start-line="87" selection-end-line="87" />
           <folding>
             <element signature="e#44#69#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/People.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/XML/people/list.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/XML/people/info.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
         </state>
       </provider>
     </entry>

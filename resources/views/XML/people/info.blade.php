@@ -5,6 +5,7 @@
        <nickname>{{ $person->nickname }}</nickname>
        <birth_date>{{ $person->birth_date }}</birth_date>
        <country>{{ $person->country->name }}</country>
+       <avatar>{{ $person->avatar->image_url }}</avatar>
 </person>
 
 
