@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use GuzzleHttp\Client;
 use App\Models\Country;
+use App\Models\City;
 
 class GetCountriesCommand extends Command
 {
@@ -46,15 +47,24 @@ class GetCountriesCommand extends Command
 
         $country = new Country();
 
-        $countriesData = json_decode($request->getBody(), true);
+        $city = new City();
 
-        foreach ($countriesData as $key => $countryData) {
-            $data = [
-                'name' => $countryData['name'],
-                'code' => $countryData['alpha2Code']
+        $apiData = json_decode($request->getBody(), true);
+
+        foreach ($apiData as $key => $data) {
+            $countryArray = [
+                'name' => $data['name'],
+                'code' => $data['alpha2Code']
             ];
 
-            $country->create($data);
+            $countries = $country->create($countryArray);
+
+            $cityArray = [
+                'name' => $data['capital'],
+                'country_id' => $countries->id
+            ];
+
+            $city->create($cityArray);
         }
     }
 }

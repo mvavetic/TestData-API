@@ -32,4 +32,14 @@ class Country extends Model implements ModelInterface
     {
         return $this->hasMany('App\Models\People', 'country_id');
     }
+
+    /**
+     * Get cities that belong to a country
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cities()
+    {
+        return $this->hasMany('App\Models\City', 'country_id');
+    }
 }
