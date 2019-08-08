@@ -8,7 +8,16 @@
     <last_name>{{ $person->last_name }}</last_name>
     <nickname>{{ $person->nickname }}</nickname>
     <birth_date>{{ $person->birth_date }}</birth_date>
-    <country>{{ $person->country->name }}</country>
+    @if($person->relationLoaded('country'))
+    <country>
+        <name>{{ $person->country->name }}</name>
+    </country>
+    @endif
+    @if($person->relationLoaded('sport'))
+    <sport>
+        <name>{{ $person->sport->name }}</name>
+    </sport>
+    @endif
 </person>
 
 @endforeach

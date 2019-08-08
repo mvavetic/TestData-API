@@ -35,13 +35,34 @@ class PeopleController extends Controller
         $people = $peopleService->findAll($data);
 
         if ($data['data_format'] === DataFormat::JSON) {
-            $peopleResource = new PeopleResource($people);
 
-            $filter = $data['load_with'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country_id');
+            if(empty($data['load_with'])) {
 
-            return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
+                $peopleResource = new PeopleResource($people);
+
+                return new JsonResponse($peopleResource->collection($people), HttpStatusCode::HTTP_OK);
+            } else {
+                $relations = explode(', ', $data['load_with']);
+
+                $peopleWithRelations = $peopleService->findAllWithRelations($relations);
+
+                $peopleResource = new PeopleResource($peopleWithRelations);
+
+                return new JsonResponse($peopleResource->collection($peopleWithRelations), HttpStatusCode::HTTP_OK);
+            }
         } elseif ($data['data_format'] === DataFormat::XML) {
-            return $this->responseFactory->view('XML.people.list', compact('people', 'showCountry'))->header('Content-Type', 'text/xml');
+
+            if(empty($data['load_with'])) {
+
+                return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
+
+            } else {
+                $relations = explode(', ', $data['load_with']);
+
+                $people = $peopleService->findAllWithRelations($relations);
+
+                return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
+            }
         }
     }
 
@@ -59,13 +80,34 @@ class PeopleController extends Controller
         $person = $peopleService->findOne($data);
 
         if ($data['data_format'] === DataFormat::JSON) {
-            $personMapper = new PeopleResource($person);
 
-            $filter = $data['load_with'] === 'country' ? $personMapper : $personMapper->makeHidden('country');
+            if (empty($data['load_with'])) {
 
-            return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
+                $personResource = new PeopleResource($person);
+
+                return new JsonResponse($personResource, HttpStatusCode::HTTP_OK);
+            } else {
+                $relations = explode(', ', $data['load_with']);
+
+                $personWithRelations = $peopleService->findOneWithRelations($relations, $data['id']);
+
+                $personResource = new PeopleResource($personWithRelations);
+
+                return new JsonResponse($personResource, HttpStatusCode::HTTP_OK);
+            }
         } elseif ($data['data_format'] === DataFormat::XML) {
-            return $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
+
+            if (empty($data['load_with'])) {
+
+                return $this->responseFactory->view('XML.people.list', compact('person'))->header('Content-Type', 'text/xml');
+
+            } else {
+                $relations = explode(', ', $data['load_with']);
+
+                $person = $peopleService->findOneWithRelations($relations, $data['id']);
+
+                return $this->responseFactory->view('XML.people.list', compact('person'))->header('Content-Type', 'text/xml');
+            }
         }
     }
 

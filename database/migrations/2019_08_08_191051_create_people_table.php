@@ -19,9 +19,11 @@ class CreatePeopleTable extends Migration
             $table->string('last_name');
             $table->string('nickname');
             $table->date('birth_date');
-            $table->integer('country_id')->unsigned()->index();
+            $table->integer('country_id')->unsigned();
+            $table->integer('sport_id')->unsigned();
             $table->timestamps();
 
+            $table->foreign('sport_id')->references('id')->on('sports');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });
     }

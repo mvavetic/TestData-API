@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Sport;
 
 class PeopleResource extends JsonResource
 {
@@ -20,7 +21,12 @@ class PeopleResource extends JsonResource
             'last_name' => $this->last_name,
             'nickname' => $this->nickname,
             'birth_date' => $this->birth_date,
-            'country' => $this->country->name,
+            'country' => $this->whenLoaded('country', function () {
+                return $this->country->name;
+            }),
+            'sport' => $this->whenLoaded('sport', function () {
+                return $this->sport->name;
+            })
         ];
     }
 }

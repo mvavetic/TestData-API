@@ -13,7 +13,7 @@ class People extends Model implements ModelInterface
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'nickname', 'birth_date', 'country_id'
+        'first_name', 'last_name', 'nickname', 'birth_date', 'country_id', 'sport_id'
     ];
 
     /**
@@ -43,5 +43,15 @@ class People extends Model implements ModelInterface
     public function avatar()
     {
         return $this->hasOne('App\Models\Avatar', 'person_id');
+    }
+
+    /**
+     * Get person's sport
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function sport()
+    {
+        return $this->belongsTo('App\Models\Sport', 'sport_id');
     }
 }

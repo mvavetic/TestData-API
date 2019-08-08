@@ -135,4 +135,41 @@ class BaseRepository
 
         return $query;
     }
+
+    /**
+     * Retrieve all with requested relations
+     *
+     * @param array $data
+     * @return ModelInterface
+     * @throws SystemException
+     */
+    public function findAllWithRelations(array $data) : ModelInterface
+    {
+        try {
+            $query = $this->model->with($data)->get();
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Retrieve a single record by ID with requested relations
+     *
+     * @param array $data
+     * @param int $id
+     * @return ModelInterface
+     * @throws SystemException
+     */
+    public function findOneWithRelations(array $data, int $id) : ModelInterface
+    {
+        try {
+            $query = $this->model->with($data)->find($id);
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $query;
+    }
 }

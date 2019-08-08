@@ -19,10 +19,11 @@ use Faker\Generator as Faker;
 
 $factory->define(People::class, function (Faker $faker) {
     return [
-        'first_name' => $faker->name,
-        'last_name' => $faker->name,
-        'nickname' => $faker->name,
-        'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'country_id' => rand(250,500),
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'nickname' => $faker->firstName,
+        'birth_date' => $faker->date($format = 'Y-m-d', $max = '2001-01-01'),
+        'country_id' => rand(1,250),
+        'sport_id' => rand(1,10)
     ];
 });
