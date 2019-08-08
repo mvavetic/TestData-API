@@ -27,10 +27,6 @@ class ManageDataPolicy
      */
     public function manage(User $user)
     {
-        if($user['manage'] == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return $user->manage == 1;
     }
 }
