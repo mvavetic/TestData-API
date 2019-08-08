@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
-use App\Events\RecordAdded;
-use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AvatarCreateRequest;
 use App\Http\Resources\PeopleResource;
@@ -21,6 +19,11 @@ use App\Http\Requests\PersonDeleteRequest;
 
 class PeopleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('manage')->except(['index', 'show']);
+    }
+
     /**
      * Get requested number of people
      *
@@ -35,11 +38,11 @@ class PeopleController extends Controller
 
         $people = $peopleService->findAll($data);
 
-        if ($data['data_format'] === DataFormat::JSON) {
+        if ($data['dataFormat'] === DataFormat::JSON) {
             $peopleResource = new PeopleResource($people);
             $filter = $data['loadWith'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country_id');
             return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
-        } elseif ($data['data_format'] === DataFormat::XML) {
+        } elseif ($data['dataFormat'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.people.list', compact('people', 'showCountry'))->header('Content-Type', 'text/xml');
         }
     }
@@ -57,11 +60,11 @@ class PeopleController extends Controller
 
         $person = $peopleService->findOne($data);
 
-        if ($data['data_format'] === DataFormat::JSON) {
+        if ($data['dataFormat'] === DataFormat::JSON) {
             $personMapper = new PeopleResource($person);
             $filter = $data['loadWith'] === 'country' ? $personMapper : $personMapper->makeHidden('country');
             return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
-        } elseif ($data['data_format'] === DataFormat::XML) {
+        } elseif ($data['dataFormat'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
         }
     }
@@ -74,6 +77,7 @@ class PeopleController extends Controller
      * @param \App\Services\PeopleService $peopleService
      * @param AvatarService $avatarService
      * @return JsonResponse
+     * @throws
      */
     public function create(PersonCreateRequest $personRequest, AvatarCreateRequest $avatarRequest, PeopleService $peopleService, AvatarService $avatarService) : JsonResponse
     {
