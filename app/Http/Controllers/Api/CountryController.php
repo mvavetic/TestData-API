@@ -10,6 +10,7 @@ use App\Http\Resources\CountryResource;
 use App\Interfaces\ReturnTypeInterface;
 use App\Services\CountryService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\CountryInfoRequest;
 
 class CountryController extends Controller
 {
@@ -31,6 +32,28 @@ class CountryController extends Controller
             return new JsonResponse($countriesMapper->collection($countries), HttpStatusCode::HTTP_OK);
         } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.country.list', compact('countries'))->header('Content-Type', 'text/xml');
+        }
+    }
+
+    /**
+     * Get a single country by id
+     *
+     * @param CountryInfoRequest $request
+     * @param CountryService $countryService
+     * @return ReturnTypeInterface
+     */
+    public function show(CountryInfoRequest $request, CountryService $countryService)
+    {
+        $data = $request->validateData();
+
+        $country = $countryService->findById($data['id']);
+
+        if ($data['dataFormat'] === DataFormat::JSON) {
+            $countriesMapper = new CountryResource($country);
+            $filter = $data['loadWith'] === 'cities' ? $countriesMapper : $countriesMapper->makeHidden('capital');
+            return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
+        } elseif ($data['dataFormat'] === DataFormat::XML) {
+            return $this->responseFactory->view('XML.country.info', compact('country'))->header('Content-Type', 'text/xml');
         }
     }
 }

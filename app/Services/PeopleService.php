@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NotFoundException;
 use App\Interfaces\ModelInterface;
 use App\Models\Country;
 use App\Repositories\BaseRepository;
@@ -44,7 +45,13 @@ class PeopleService
      */
     public function findAll(array $data) : ModelInterface
     {
-        return $people = $this->repository->paginate($data['count']);
+        $people = $this->repository->paginate($data['count']);
+
+        if ($people->count() > null) {
+            return $people;
+        } else {
+            throw new NotFoundException('No people found in database.', 404);
+        }
     }
 
     /**

@@ -20,7 +20,7 @@ class Country extends Model implements ModelInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'code'
+        'name', 'code', 'flag'
     ];
 
     /**

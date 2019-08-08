@@ -25,7 +25,7 @@ class AvatarUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar_url' => 'string'
+            'avatarUrl' => 'string'
         ];
     }
 
@@ -42,7 +42,7 @@ class AvatarUpdateRequest extends FormRequest
 
         $input = [
             'id' => $person->avatar->id,
-            'image_url' => $this->input('avatar_url'),
+            'image_url' => $this->input('avatarUrl'),
         ];
 
         return $input;

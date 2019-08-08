@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\DataFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CountryListRequest extends FormRequest
+class CityInfoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,9 @@ class CountryListRequest extends FormRequest
     public function rules()
     {
         return [
-            'dataFormat' => 'required|string|enum_value:' . DataFormat::class,
-            'loadWith' => 'string|in:cities'
+            'id' => 'required|integer',
+            'loadWith' => 'string|in:country',
+            'dataFormat' => 'required|string|enum_value:' . DataFormat::class
         ];
     }
 
@@ -38,7 +39,7 @@ class CountryListRequest extends FormRequest
     public function messages()
     {
         return [
-            'loadWith.in' => 'You can only load with cities.',
+            'loadWith.in' => 'You can only load with country.',
             'dataFormat.enum_value' => 'Invalid data format. Data formats supported: JSON and XML'
         ];
     }
@@ -51,6 +52,7 @@ class CountryListRequest extends FormRequest
     public function validateData()
     {
         $input = [
+            'id' => $this->input('id'),
             'loadWith' => $this->input('loadWith'),
             'dataFormat' => $this->input('dataFormat')
         ];

@@ -25,11 +25,11 @@ class PersonUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required|integer|exists:people,id',
-            'first_name' => 'string',
-            'last_name' => 'string',
+            'firstName' => 'string',
+            'lastName' => 'string',
             'nickname' => 'string',
-            'birth_date' => 'date',
-            'country_id' => 'integer'
+            'birthDate' => 'date',
+            'countryId' => 'integer'
         ];
     }
 
@@ -42,11 +42,11 @@ class PersonUpdateRequest extends FormRequest
     {
         $input = [
             'id' => $this->input('id'),
-            'first_name' => $this->input('first_name'),
-            'last_name' => $this->input('last_name'),
+            'first_name' => $this->input('firstName'),
+            'last_name' => $this->input('lastName'),
             'nickname' => $this->input('nickname'),
-            'birth_date' => $this->input('birth_date'),
-            'country_id' => $this->input('country_id')
+            'birth_date' => $this->input('birthDate'),
+            'country_id' => $this->input('countryId')
         ];
 
         return array_filter($input);

@@ -24,7 +24,7 @@ class AvatarCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar_url' => 'string'
+            'avatarUrl' => 'string'
         ];
     }
 
@@ -36,7 +36,7 @@ class AvatarCreateRequest extends FormRequest
     public function validateData()
     {
         $input = [
-            'image_url' => $this->input('avatar_url'),
+            'image_url' => $this->input('avatarUrl'),
             'person_id' => null
         ];
 

@@ -7,6 +7,3 @@
        <country>{{ $person->country->name }}</country>
        <avatar>{{ $person->avatar->image_url }}</avatar>
 </person>
-
-
-

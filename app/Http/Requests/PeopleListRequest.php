@@ -27,7 +27,7 @@ class PeopleListRequest extends FormRequest
         return [
             'count' => 'required|numeric',
             'loadWith' => 'string|in:country',
-            'data_format' => 'required|string|enum_value:' . DataFormat::class
+            'dataFormat' => 'required|string|enum_value:' . DataFormat::class
         ];
     }
 
@@ -39,7 +39,7 @@ class PeopleListRequest extends FormRequest
     public function messages()
     {
         return [
-            'data_format.enum_value' => 'Invalid data format. Data formats supported: JSON and XML'
+            'dataFormat.enum_value' => 'Invalid data format. Data formats supported: JSON and XML'
         ];
     }
 
@@ -53,7 +53,7 @@ class PeopleListRequest extends FormRequest
         $input = [
             'count' => $this->input('count'),
             'loadWith' => $this->input('loadWith'),
-            'data_format' => $this->input('data_format')
+            'dataFormat' => $this->input('dataFormat')
         ];
 
         return $input;

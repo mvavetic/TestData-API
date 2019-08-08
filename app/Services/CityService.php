@@ -4,16 +4,16 @@ namespace App\Services;
 
 use App\Interfaces\ModelInterface;
 use App\Repositories\BaseRepository;
-use App\Models\Country;
+use App\Models\City;
 
-class CountryService
+class CityService
 {
     /**
      * Model to be used
      *
-     * @var Country
+     * @var City
      */
-    protected $countryModel;
+    protected $cityModel;
 
     /**
      * Repository for a model
@@ -25,33 +25,33 @@ class CountryService
     /**
      * Setting the model to a protected variable
      *
-     * @param Country $countryModel
+     * @param City $cityModel
      */
-    public function __construct(Country $countryModel)
+    public function __construct(City $cityModel)
     {
-        $this->countryModel = $countryModel;
+        $this->cityModel = $cityModel;
 
-        $this->repository = new BaseRepository($this->countryModel);
+        $this->repository = new BaseRepository($this->cityModel);
     }
 
     /**
-     * Get all countries
+     * Get all cities
      *
      * @return ModelInterface
      */
     public function findAll() : ModelInterface
     {
-        return $countries = $this->repository->findAll();
+        return $cities = $this->repository->findAll();
     }
 
     /**
-     * Get a single country
+     * Get a single city
      *
      * @param int $id
      * @return ModelInterface
      */
     public function findById(int $id) : ModelInterface
     {
-        return $countries = $this->repository->findById($id);
+        return $city = $this->repository->findById($id);
     }
 }

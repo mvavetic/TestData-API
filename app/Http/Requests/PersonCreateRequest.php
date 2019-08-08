@@ -24,11 +24,11 @@ class PersonCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
             'nickname' => 'required|string',
-            'birth_date' => 'required|date',
-            'country_id' => 'required|integer'
+            'birthDate' => 'required|date',
+            'countryId' => 'required|integer'
         ];
     }
 
@@ -40,11 +40,11 @@ class PersonCreateRequest extends FormRequest
     public function validateData()
     {
         $input = [
-            'first_name' => $this->input('first_name'),
-            'last_name' => $this->input('last_name'),
+            'first_name' => $this->input('firstName'),
+            'last_name' => $this->input('lastName'),
             'nickname' => $this->input('nickname'),
-            'birth_date' => $this->input('birth_date'),
-            'country_id' => $this->input('country_id')
+            'birth_date' => $this->input('birthDate'),
+            'country_id' => $this->input('countryId')
         ];
 
         return $input;

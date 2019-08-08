@@ -52,19 +52,20 @@ class GetCountriesCommand extends Command
         $apiData = json_decode($request->getBody(), true);
 
         foreach ($apiData as $key => $data) {
-            $countryArray = [
+            $countryData = [
                 'name' => $data['name'],
-                'code' => $data['alpha2Code']
+                'code' => $data['alpha2Code'],
+                'flag' => $data['flag']
             ];
 
-            $countries = $country->create($countryArray);
+            $countries = $country->create($countryData);
 
-            $cityArray = [
+            $cityData = [
                 'name' => $data['capital'],
                 'country_id' => $countries->id
             ];
 
-            $city->create($cityArray);
+            $city->create($cityData);
         }
     }
 }

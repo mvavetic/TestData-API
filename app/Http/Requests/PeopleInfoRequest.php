@@ -54,7 +54,7 @@ class PeopleInfoRequest extends FormRequest
         $input = [
             'id' => $this->input('id'),
             'loadWith' => $this->input('loadWith'),
-            'data_format' => $this->input('data_format')
+            'dataFormat' => $this->input('dataFormat')
         ];
 
         return $input;
