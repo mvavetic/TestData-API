@@ -23,8 +23,8 @@ Route::group(['middleware' => 'auth:api', 'cors'], function() {
     Route::patch('person.update', 'Api\PeopleController@update');
     Route::delete('person.delete', 'Api\PeopleController@destroy');
     // County controller
-    Route::post('countries.list', 'Api\CountryController@index');
-    Route::post('country.info', 'Api\CountryController@show');
+    Route::get('countries.list', 'Api\CountryController@index');
+    Route::get('country.info', 'Api\CountryController@show');
     // City controller
     Route::post('cities.list', 'Api\CityController@index');
     Route::post('city.info', 'Api\CityController@show');

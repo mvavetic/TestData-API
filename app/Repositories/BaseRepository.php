@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Events\RecordAdded;
 use App\Interfaces\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,7 +33,11 @@ class BaseRepository
      */
     public function create(array $data) : ModelInterface
     {
-        return $this->model->create($data);
+        $record = $this->model->create($data);
+
+        event(new RecordAdded($this->model->getTable(), $record->id));
+
+        return $record;
     }
 
     /**

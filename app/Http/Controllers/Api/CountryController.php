@@ -27,10 +27,10 @@ class CountryController extends Controller
 
         $countries = $countryService->findAll();
 
-        if ($data['data_format'] === DataFormat::JSON) {
+        if ($data['dataFormat'] === DataFormat::JSON) {
             $countriesMapper = new CountryResource($countries);
             return new JsonResponse($countriesMapper->collection($countries), HttpStatusCode::HTTP_OK);
-        } elseif ($data['data_format'] === DataFormat::XML) {
+        } elseif ($data['dataFormat'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.country.list', compact('countries'))->header('Content-Type', 'text/xml');
         }
     }
