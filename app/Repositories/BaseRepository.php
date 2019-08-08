@@ -2,9 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Enums\HttpStatusCode;
 use App\Events\RecordAdded;
+use App\Exceptions\SystemException;
 use App\Interfaces\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 
 class BaseRepository
 {
@@ -30,12 +33,16 @@ class BaseRepository
      *
      * @param array $data
      * @return ModelInterface
+     * @throws SystemException
      */
     public function create(array $data) : ModelInterface
     {
-        $record = $this->model->create($data);
-
-        event(new RecordAdded($this->model->getTable(), $record->id));
+        try {
+            $record = $this->model->create($data);
+            event(new RecordAdded($this->model->getTable(), $record->id));
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         return $record;
     }
@@ -45,10 +52,17 @@ class BaseRepository
      *
      * @param array $data
      * @return bool
+     * @throws SystemException
      */
     public function update(array $data) : bool
     {
-        return $this->model->update($data);
+        try {
+            $record = $this->model->update($data);
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $record;
     }
 
     /**
@@ -56,10 +70,17 @@ class BaseRepository
      *
      * @param int $id
      * @return bool
+     * @throws SystemException
      */
     public function delete(int $id) : bool
     {
-        return $this->model->destroy($id);
+        try {
+            $record = $this->model->destroy($id);
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $record;
     }
 
     /**
@@ -67,20 +88,34 @@ class BaseRepository
      *
      * @param int $number
      * @return ModelInterface
+     * @throws SystemException
      */
     public function paginate(int $number = 15) : ModelInterface
     {
-        return $this->model->limit($number)->get();
+        try {
+            $query = $this->model->limit($number)->get();
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $query;
     }
 
     /**
      * Retrieve all records
      *
      * @return ModelInterface
+     * @throws SystemException
      */
     public function findAll() : ModelInterface
     {
-        return $this->model->get();
+        try {
+            $query = $this->model->get();
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $query;
     }
 
     /**
@@ -88,9 +123,16 @@ class BaseRepository
      *
      * @param int $id
      * @return ModelInterface
+     * @throws SystemException
      */
     public function findById(int $id) : ModelInterface
     {
-        return $this->model->find($id);
+        try {
+            $query = $this->model->find($id);
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $query;
     }
 }

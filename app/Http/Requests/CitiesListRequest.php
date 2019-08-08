@@ -51,8 +51,8 @@ class CitiesListRequest extends FormRequest
     public function validateData()
     {
         $input = [
-            'loadWith' => $this->input('loadWith'),
-            'dataFormat' => $this->input('dataFormat')
+            'load_with' => $this->input('loadWith'),
+            'data_format' => $this->input('dataFormat')
         ];
 
         return $input;

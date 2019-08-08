@@ -53,8 +53,8 @@ class CountryInfoRequest extends FormRequest
     {
         $input = [
             'id' => $this->input('id'),
-            'loadWith' => $this->input('loadWith'),
-            'dataFormat' => $this->input('dataFormat')
+            'load_with' => $this->input('loadWith'),
+            'data_format' => $this->input('dataFormat')
         ];
 
         return $input;

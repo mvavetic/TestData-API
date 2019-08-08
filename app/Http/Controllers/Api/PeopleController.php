@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
-use App\Events\RecordAdded;
-use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AvatarCreateRequest;
 use App\Http\Resources\PeopleResource;
 use App\Interfaces\ReturnTypeInterface;
 use App\Services\AvatarService;
 use App\Services\PeopleService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
 use App\Http\Requests\PeopleInfoRequest;
@@ -37,7 +36,9 @@ class PeopleController extends Controller
 
         if ($data['data_format'] === DataFormat::JSON) {
             $peopleResource = new PeopleResource($people);
-            $filter = $data['loadWith'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country_id');
+
+            $filter = $data['load_with'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country_id');
+
             return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
         } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.people.list', compact('people', 'showCountry'))->header('Content-Type', 'text/xml');
@@ -59,7 +60,9 @@ class PeopleController extends Controller
 
         if ($data['data_format'] === DataFormat::JSON) {
             $personMapper = new PeopleResource($person);
-            $filter = $data['loadWith'] === 'country' ? $personMapper : $personMapper->makeHidden('country');
+
+            $filter = $data['load_with'] === 'country' ? $personMapper : $personMapper->makeHidden('country');
+
             return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
         } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
@@ -74,9 +77,12 @@ class PeopleController extends Controller
      * @param \App\Services\PeopleService $peopleService
      * @param AvatarService $avatarService
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function create(PersonCreateRequest $personRequest, AvatarCreateRequest $avatarRequest, PeopleService $peopleService, AvatarService $avatarService) : JsonResponse
     {
+        $this->authorize('manage', $this->auth->user());
+
         $personData = $personRequest->validateData();
 
         $person = $peopleService->create($personData);
@@ -103,9 +109,12 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\AvatarCreateRequest $avatarRequest
      * @param \App\Services\AvatarService $avatarService
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function update(PersonUpdateRequest $personRequest, AvatarCreateRequest $avatarRequest, AvatarService $avatarService, PeopleService $peopleService) : JsonResponse
     {
+        $this->authorize('manage', $this->auth->user());
+
         $personData = $personRequest->validateData();
 
         $avatarData = $avatarRequest->validateData();
@@ -125,9 +134,12 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PersonDeleteRequest $request
      * @param \App\Services\PeopleService $peopleService
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function destroy(PersonDeleteRequest $request, PeopleService $peopleService) : JsonResponse
     {
+        $this->authorize('manage', $this->auth->user());
+
         $data = $request->validateData();
 
         $peopleService->delete($data);
