@@ -19,8 +19,18 @@ class ManageDataPolicy
         //
     }
 
+    /**
+     * Determine if the given user can manage data.
+     *
+     * @param  \App\Models\User  $user
+     * @return bool
+     */
     public function manage(User $user)
     {
-        return $user->manage == 1;
+        if($user['manage'] == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

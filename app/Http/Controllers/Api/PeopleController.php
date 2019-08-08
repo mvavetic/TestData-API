@@ -10,6 +10,7 @@ use App\Http\Resources\PeopleResource;
 use App\Interfaces\ReturnTypeInterface;
 use App\Services\AvatarService;
 use App\Services\PeopleService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
 use App\Http\Requests\PeopleInfoRequest;
@@ -19,11 +20,6 @@ use App\Http\Requests\PersonDeleteRequest;
 
 class PeopleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('manage')->except(['index', 'show']);
-    }
-
     /**
      * Get requested number of people
      *
@@ -38,11 +34,13 @@ class PeopleController extends Controller
 
         $people = $peopleService->findAll($data);
 
-        if ($data['dataFormat'] === DataFormat::JSON) {
+        if ($data['data_format'] === DataFormat::JSON) {
             $peopleResource = new PeopleResource($people);
-            $filter = $data['loadWith'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country_id');
+
+            $filter = $data['load_with'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country_id');
+
             return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
-        } elseif ($data['dataFormat'] === DataFormat::XML) {
+        } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.people.list', compact('people', 'showCountry'))->header('Content-Type', 'text/xml');
         }
     }
@@ -60,11 +58,13 @@ class PeopleController extends Controller
 
         $person = $peopleService->findOne($data);
 
-        if ($data['dataFormat'] === DataFormat::JSON) {
+        if ($data['data_format'] === DataFormat::JSON) {
             $personMapper = new PeopleResource($person);
-            $filter = $data['loadWith'] === 'country' ? $personMapper : $personMapper->makeHidden('country');
+
+            $filter = $data['load_with'] === 'country' ? $personMapper : $personMapper->makeHidden('country');
+
             return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
-        } elseif ($data['dataFormat'] === DataFormat::XML) {
+        } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
         }
     }
@@ -77,10 +77,12 @@ class PeopleController extends Controller
      * @param \App\Services\PeopleService $peopleService
      * @param AvatarService $avatarService
      * @return JsonResponse
-     * @throws
+     * @throws AuthorizationException
      */
     public function create(PersonCreateRequest $personRequest, AvatarCreateRequest $avatarRequest, PeopleService $peopleService, AvatarService $avatarService) : JsonResponse
     {
+        $this->authorize('manage', $this->auth->user());
+
         $personData = $personRequest->validateData();
 
         $person = $peopleService->create($personData);
@@ -107,9 +109,12 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\AvatarCreateRequest $avatarRequest
      * @param \App\Services\AvatarService $avatarService
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function update(PersonUpdateRequest $personRequest, AvatarCreateRequest $avatarRequest, AvatarService $avatarService, PeopleService $peopleService) : JsonResponse
     {
+        $this->authorize('manage', $this->auth->user());
+
         $personData = $personRequest->validateData();
 
         $avatarData = $avatarRequest->validateData();
@@ -129,9 +134,12 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PersonDeleteRequest $request
      * @param \App\Services\PeopleService $peopleService
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function destroy(PersonDeleteRequest $request, PeopleService $peopleService) : JsonResponse
     {
+        $this->authorize('manage', $this->auth->user());
+
         $data = $request->validateData();
 
         $peopleService->delete($data);

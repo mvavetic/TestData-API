@@ -27,10 +27,11 @@ class CountryController extends Controller
 
         $countries = $countryService->findAll();
 
-        if ($data['dataFormat'] === DataFormat::JSON) {
+        if ($data['data_format'] === DataFormat::JSON) {
             $countriesMapper = new CountryResource($countries);
+
             return new JsonResponse($countriesMapper->collection($countries), HttpStatusCode::HTTP_OK);
-        } elseif ($data['dataFormat'] === DataFormat::XML) {
+        } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.country.list', compact('countries'))->header('Content-Type', 'text/xml');
         }
     }
@@ -48,11 +49,14 @@ class CountryController extends Controller
 
         $country = $countryService->findById($data['id']);
 
-        if ($data['dataFormat'] === DataFormat::JSON) {
+        if ($data['data_format'] === DataFormat::JSON) {
+
             $countriesMapper = new CountryResource($country);
-            $filter = $data['loadWith'] === 'cities' ? $countriesMapper : $countriesMapper->makeHidden('capital');
+
+            $filter = $data['load_with'] === 'cities' ? $countriesMapper : $countriesMapper->makeHidden('capital');
+
             return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
-        } elseif ($data['dataFormat'] === DataFormat::XML) {
+        } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.country.info', compact('country'))->header('Content-Type', 'text/xml');
         }
     }
