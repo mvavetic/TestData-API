@@ -36,7 +36,7 @@ class PeopleController extends Controller
 
         if ($data['data_format'] === DataFormat::JSON) {
 
-            if(empty($data['load_with'])) {
+            if (empty($data['load_with'])) {
 
                 $peopleResource = new PeopleResource($people);
 
@@ -52,7 +52,7 @@ class PeopleController extends Controller
             }
         } elseif ($data['data_format'] === DataFormat::XML) {
 
-            if(empty($data['load_with'])) {
+            if (empty($data['load_with'])) {
 
                 return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
 

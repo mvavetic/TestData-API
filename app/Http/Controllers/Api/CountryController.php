@@ -45,7 +45,7 @@ class CountryController extends Controller
             }
         } elseif ($data['data_format'] === DataFormat::XML) {
 
-            if(empty($data['load_with'])) {
+            if (empty($data['load_with'])) {
                 return $this->responseFactory->view('XML.country.list', compact('countries'))->header('Content-Type', 'text/xml');
 
             } else {
