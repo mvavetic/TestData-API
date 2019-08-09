@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
+use App\Exceptions\SystemException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AvatarCreateRequest;
 use App\Http\Resources\PeopleResource;
@@ -11,6 +12,7 @@ use App\Interfaces\ReturnTypeInterface;
 use App\Services\AvatarService;
 use App\Services\PeopleService;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
 use App\Http\Requests\PeopleInfoRequest;
@@ -35,34 +37,11 @@ class PeopleController extends Controller
         $people = $peopleService->findAll($data);
 
         if ($data['data_format'] === DataFormat::JSON) {
+            $peopleResource = new PeopleResource($people);
+            return new JsonResponse($peopleResource->collection($people), HttpStatusCode::HTTP_OK);
 
-            if (empty($data['load_with'])) {
-
-                $peopleResource = new PeopleResource($people);
-
-                return new JsonResponse($peopleResource->collection($people), HttpStatusCode::HTTP_OK);
-            } else {
-                $relations = explode(', ', $data['load_with']);
-
-                $peopleWithRelations = $peopleService->findAllWithRelations($relations);
-
-                $peopleResource = new PeopleResource($peopleWithRelations);
-
-                return new JsonResponse($peopleResource->collection($peopleWithRelations), HttpStatusCode::HTTP_OK);
-            }
         } elseif ($data['data_format'] === DataFormat::XML) {
-
-            if (empty($data['load_with'])) {
-
-                return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
-
-            } else {
-                $relations = explode(', ', $data['load_with']);
-
-                $people = $peopleService->findAllWithRelations($relations);
-
-                return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
-            }
+            return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
         }
     }
 
@@ -80,34 +59,11 @@ class PeopleController extends Controller
         $person = $peopleService->findOne($data);
 
         if ($data['data_format'] === DataFormat::JSON) {
+            $personResource = new PeopleResource($person);
+            return new JsonResponse($personResource, HttpStatusCode::HTTP_OK);
 
-            if (empty($data['load_with'])) {
-
-                $personResource = new PeopleResource($person);
-
-                return new JsonResponse($personResource, HttpStatusCode::HTTP_OK);
-            } else {
-                $relations = explode(', ', $data['load_with']);
-
-                $personWithRelations = $peopleService->findOneWithRelations($relations, $data['id']);
-
-                $personResource = new PeopleResource($personWithRelations);
-
-                return new JsonResponse($personResource, HttpStatusCode::HTTP_OK);
-            }
         } elseif ($data['data_format'] === DataFormat::XML) {
-
-            if (empty($data['load_with'])) {
-
-                return $this->responseFactory->view('XML.people.list', compact('person'))->header('Content-Type', 'text/xml');
-
-            } else {
-                $relations = explode(', ', $data['load_with']);
-
-                $person = $peopleService->findOneWithRelations($relations, $data['id']);
-
-                return $this->responseFactory->view('XML.people.list', compact('person'))->header('Content-Type', 'text/xml');
-            }
+            return $this->responseFactory->view('XML.people.list', compact('person'))->header('Content-Type', 'text/xml');
         }
     }
 

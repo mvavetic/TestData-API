@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NotFoundException;
 use App\Interfaces\ModelInterface;
 use App\Repositories\BaseRepository;
 use App\Models\City;
@@ -38,10 +39,17 @@ class CityService
      * Get all cities
      *
      * @return ModelInterface
+     * @throws
      */
     public function findAll() : ModelInterface
     {
-        return $cities = $this->repository->findAll();
+        $cities = $this->repository->findAll();
+
+        if ($cities->count() > null) {
+            return $cities;
+        } else {
+            throw new NotFoundException('No cities found in database.', 404);
+        }
     }
 
     /**
@@ -49,6 +57,7 @@ class CityService
      *
      * @param int $id
      * @return ModelInterface
+     * @throws
      */
     public function findById(int $id) : ModelInterface
     {

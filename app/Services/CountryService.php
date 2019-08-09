@@ -39,10 +39,22 @@ class CountryService
      * Get all countries
      *
      * @return ModelInterface
+     * @throws
      */
     public function findAll() : ModelInterface
     {
-        return $countries = $this->repository->findAll();
+        if (empty($data['load_with'])) {
+            $countries = $this->repository->findAll();
+        } else {
+            $relations = explode(', ', $data['load_with']);
+            $countries = $this->repository->findAllWithRelations($relations);
+        }
+
+        if ($countries->count() > null) {
+            return $countries;
+        } else {
+            throw new NotFoundException('No countries found in database.', 404);
+        }
     }
 
     /**
@@ -50,40 +62,10 @@ class CountryService
      *
      * @param int $id
      * @return ModelInterface
+     * @throws
      */
     public function findById(int $id) : ModelInterface
     {
         return $countries = $this->repository->findById($id);
-    }
-
-    /**
-     * Get all countries with requested relations
-     *
-     * @param array $data
-     * @return ModelInterface
-     * @throws
-     */
-    public function findAllWithRelations(array $data) : ModelInterface
-    {
-        $country = $this->repository->findAllWithRelations($data);
-
-        if ($country->count() > null) {
-            return $country;
-        } else {
-            throw new NotFoundException('No people found in database.', 404);
-        }
-    }
-
-    /**
-     * Get a single country with requested relations
-     *
-     * @param array $data
-     * @param int $id
-     * @return ModelInterface
-     * @throws
-     */
-    public function findOneWithRelations(array $data, int $id) : ModelInterface
-    {
-        return $country = $this->repository->findOneWithRelations($data, $id);
     }
 }

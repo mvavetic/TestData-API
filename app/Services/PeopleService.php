@@ -45,7 +45,12 @@ class PeopleService
      */
     public function findAll(array $data) : ModelInterface
     {
-        $people = $this->repository->paginate($data['count']);
+        if (empty($data['load_with'])) {
+            $people = $this->repository->paginate($data['count']);
+        } else {
+            $relations = explode(', ', $data['load_with']);
+            $people = $this->repository->findAllWithRelations($relations);
+        }
 
         if ($people->count() > null) {
             return $people;
@@ -94,7 +99,14 @@ class PeopleService
      */
     public function findOne(array $data) : ModelInterface
     {
-        return $person = $this->repository->findById($data['id']);
+        if (empty($data['load_with'])) {
+            $person = $this->repository->findOrFail($data['id']);
+        } else {
+            $relations = explode(', ', $data['load_with']);
+            $person = $this->repository->findOneWithRelations($relations, $data['id']);
+        }
+
+        return $person;
     }
 
     /**
