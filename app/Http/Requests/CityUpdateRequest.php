@@ -24,6 +24,7 @@ class CityUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'required|integer|exists:cities,id',
             'name' => 'required|string',
             'countryId' => 'integer|exists:countries,id'
         ];
@@ -37,6 +38,7 @@ class CityUpdateRequest extends FormRequest
     public function validateData()
     {
         $input = [
+            'id' => $this->input('id'),
             'name' => $this->input('name'),
             'country_id' => $this->input('countryId')
         ];

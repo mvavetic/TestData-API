@@ -110,10 +110,10 @@ class PeopleService extends Service
      * Update a person
      *
      * @param array $data
-     * @return bool
+     * @return ModelInterface
      * @throws SystemException
      */
-    public function update(array $data) : bool
+    public function update(array $data) : ModelInterface
     {
         try {
             return $this->repository->update($data);

@@ -58,11 +58,11 @@ class CityController extends Controller
 
         $city = $cityService->findById($data['id']);
 
-        if ($data['dataFormat'] === DataFormat::JSON) {
+        if ($data['data_format'] === DataFormat::JSON) {
             $cityMapper = new CityResource($city);
             return new JsonResponse($cityMapper, HttpStatusCode::HTTP_OK);
 
-        } elseif ($data['dataFormat'] === DataFormat::XML) {
+        } elseif ($data['data_format'] === DataFormat::XML) {
             return $this->responseFactory->view('XML.city.info', compact('city'))->header('Content-Type', 'text/xml');
         }
     }

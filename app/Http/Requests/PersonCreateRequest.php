@@ -28,7 +28,8 @@ class PersonCreateRequest extends FormRequest
             'lastName' => 'required|string',
             'nickname' => 'required|string',
             'birthDate' => 'required|date',
-            'countryId' => 'required|integer|exists:countries,id'
+            'countryId' => 'required|integer|exists:countries,id',
+            'sportId' => 'required|integer|exists:sports,id'
         ];
     }
 
@@ -44,7 +45,8 @@ class PersonCreateRequest extends FormRequest
             'last_name' => $this->input('lastName'),
             'nickname' => $this->input('nickname'),
             'birth_date' => $this->input('birthDate'),
-            'country_id' => $this->input('countryId')
+            'country_id' => $this->input('countryId'),
+            'sport_id' => $this->input('sportId')
         ];
 
         return $input;

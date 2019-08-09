@@ -4,7 +4,9 @@
     <city>
         <id>{{ $city->id }}</id>
         <name>{{ $city->name }}</name>
-        <country>{{ $city->country->name }}</country>
+        <country>
+            <name>{{ $city->country->name }}</name>
+        </country>
     </city>
 
     @endforeach

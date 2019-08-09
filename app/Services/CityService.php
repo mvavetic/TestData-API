@@ -109,16 +109,16 @@ class CityService
      * Update a city
      *
      * @param array $data
-     * @return bool
+     * @return ModelInterface
      * @throws SystemException|ConflictException
      */
-    public function update(array $data) : bool
+    public function update(array $data) : ModelInterface
     {
         try {
             if($this->cityModel->where('name', $data['name'])->exists()) {
                 throw new ConflictException(ExceptionError::ERR_CONFLICT, HttpStatusCode::HTTP_CONFLICT);
             } else {
-                return $this->repository->delete($data['id']);
+                return $this->repository->update($data);
             }
         } catch(QueryException $e) {
             throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);

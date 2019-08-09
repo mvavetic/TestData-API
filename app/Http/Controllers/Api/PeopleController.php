@@ -64,7 +64,7 @@ class PeopleController extends Controller
             return new JsonResponse($personResource, HttpStatusCode::HTTP_OK);
 
         } elseif ($data['data_format'] === DataFormat::XML) {
-            return $this->responseFactory->view('XML.people.list', compact('person'))->header('Content-Type', 'text/xml');
+            return $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
         }
     }
 
@@ -110,7 +110,7 @@ class PeopleController extends Controller
      * @return JsonResponse
      * @throws AuthorizationException|SystemException
      */
-    public function update(PersonUpdateRequest $personRequest, AvatarCreateRequest $avatarRequest, AvatarService $avatarService, PeopleService $peopleService) : JsonResponse
+    public function edit(PersonUpdateRequest $personRequest, AvatarCreateRequest $avatarRequest, AvatarService $avatarService, PeopleService $peopleService) : JsonResponse
     {
         $this->authorize('manage', $this->auth->user());
 

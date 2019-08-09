@@ -44,11 +44,15 @@ class BaseRepository
      * Update a record
      *
      * @param array $data
-     * @return bool
+     * @return ModelInterface
      */
-    public function update(array $data) : bool
+    public function update(array $data) : ModelInterface
     {
-        return $this->model->update($data);
+        $record = $this->model->find($data['id']);
+
+        $record->update($data);
+
+        return $record;
     }
 
     /**

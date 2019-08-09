@@ -27,7 +27,7 @@ class CountryController extends Controller
     {
         $data = $request->validateData();
 
-        $countries = $countryService->findAll();
+        $countries = $countryService->findAll($data);
 
         if ($data['data_format'] === DataFormat::JSON) {
             $countriesResource = new CountryResource($countries);
