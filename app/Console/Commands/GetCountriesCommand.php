@@ -21,7 +21,7 @@ class GetCountriesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Get all countries from an API and save the response to database.';
+    protected $description = 'Get all countries, capital cities and flags from an API and save the response to database.';
 
     /**
      * Create a new command instance.
