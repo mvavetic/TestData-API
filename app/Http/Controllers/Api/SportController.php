@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\SystemException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SportResource;
 use App\Interfaces\ReturnTypeInterface;
@@ -19,6 +21,7 @@ class SportController extends Controller
      * @param SportsListRequest $request
      * @param SportService $sportService
      * @return ReturnTypeInterface
+     * @throws SystemException|NotFoundException
      */
     public function index(SportsListRequest $request, SportService $sportService) : ReturnTypeInterface
     {

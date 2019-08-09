@@ -47,7 +47,7 @@ class SportService
     public function findAll() : ModelInterface
     {
         try {
-            $this->repository->findAll();
+            return $this->repository->findAll();
         } catch (QueryException $e) {
             throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
