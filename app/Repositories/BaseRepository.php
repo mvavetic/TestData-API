@@ -2,12 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Enums\HttpStatusCode;
 use App\Events\RecordAdded;
-use App\Exceptions\SystemException;
 use App\Interfaces\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\QueryException;
 
 class BaseRepository
 {

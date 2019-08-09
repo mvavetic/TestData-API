@@ -34,7 +34,7 @@ class CityCreateRequest extends FormRequest
      *
      * @return array
      */
-    public function validateData()
+    public function validateData() : array
     {
         $input = [
             'name' => $this->input('name'),

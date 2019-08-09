@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
+use App\Exceptions\ConflictException;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\SystemException;
 use App\Http\Controllers\Controller;
@@ -72,7 +73,7 @@ class CityController extends Controller
      * @param CityCreateRequest $request
      * @param CityService $cityService
      * @return JsonResponse
-     * @throws AuthorizationException|SystemException
+     * @throws AuthorizationException|SystemException|ConflictException|NotFoundException
      */
     public function create(CityCreateRequest $request, CityService $cityService) : JsonResponse
     {
@@ -93,7 +94,7 @@ class CityController extends Controller
      * @param CityUpdateRequest $request
      * @param CityService $cityService
      * @return JsonResponse
-     * @throws AuthorizationException|SystemException
+     * @throws AuthorizationException|SystemException|ConflictException
      */
     public function edit(CityUpdateRequest $request, CityService $cityService) : JsonResponse
     {

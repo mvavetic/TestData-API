@@ -24,7 +24,6 @@ Route::group(['middleware' => 'auth:api', 'cors'], function() {
     Route::delete('person.delete', 'Api\PeopleController@destroy');
     // Country controller
     Route::get('countries.list', 'Api\CountryController@index');
-    Route::get('country.info', 'Api\CountryController@show');
     // City controller
     Route::get('cities.list', 'Api\CityController@index');
     Route::get('city.info', 'Api\CityController@show');

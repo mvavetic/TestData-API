@@ -42,10 +42,11 @@ class CountryService extends Service
     /**
      * Get all countries
      *
+     * @param array $data
      * @return ModelInterface
      * @throws SystemException|NotFoundException
      */
-    public function findAll() : ModelInterface
+    public function findAll(array $data) : ModelInterface
     {
         try {
             if (empty($data['load_with'])) {
@@ -61,7 +62,7 @@ class CountryService extends Service
         if ($countries->count() > null) {
             return $countries;
         } else {
-            throw new NotFoundException('No countries found in database.', 404);
+            throw new NotFoundException(ExceptionError::ERR_COUNTRIES_NOT_FOUND, HttpStatusCode::HTTP_NOT_FOUND);
         }
     }
 
