@@ -31,7 +31,7 @@ class CityController extends Controller
             $citiesMapper = new CityResource($cities);
             return new JsonResponse($citiesMapper->collection($cities), HttpStatusCode::HTTP_OK);
         } elseif ($data['data_format'] === DataFormat::XML) {
-            return $this->responseFactory->view('XML.country.list', compact('cities'))->header('Content-Type', 'text/xml');
+            return $this->responseFactory->view('XML.city.list', compact('cities'))->header('Content-Type', 'text/xml');
         }
     }
 
@@ -50,10 +50,9 @@ class CityController extends Controller
 
         if ($data['dataFormat'] === DataFormat::JSON) {
             $cityMapper = new CityResource($city);
-            $filter = $data['loadWith'] === 'capital' ? $cityMapper : $cityMapper->makeHidden('country');
-            return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
+            return new JsonResponse($cityMapper, HttpStatusCode::HTTP_OK);
         } elseif ($data['dataFormat'] === DataFormat::XML) {
-            return $this->responseFactory->view('XML.country.info', compact('city'))->header('Content-Type', 'text/xml');
+            return $this->responseFactory->view('XML.city.info', compact('city'))->header('Content-Type', 'text/xml');
         }
     }
 }

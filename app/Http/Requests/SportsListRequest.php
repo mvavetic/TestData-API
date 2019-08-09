@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\DataFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PeopleListRequest extends FormRequest
+class SportsListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,7 @@ class PeopleListRequest extends FormRequest
     public function rules()
     {
         return [
-            'count' => 'required|numeric',
-            'loadWith' => 'string',
-            'dataFormat' => 'required|string|enum_value:' . DataFormat::class
+            'dataFormat' => 'required|string|enum_value:' . DataFormat::class,
         ];
     }
 
@@ -51,8 +49,6 @@ class PeopleListRequest extends FormRequest
     public function validateData()
     {
         $input = [
-            'count' => $this->input('count'),
-            'load_with' => $this->input('loadWith'),
             'data_format' => $this->input('dataFormat')
         ];
 

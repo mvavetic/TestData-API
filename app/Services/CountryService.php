@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NotFoundException;
 use App\Interfaces\ModelInterface;
 use App\Repositories\BaseRepository;
 use App\Models\Country;
@@ -38,10 +39,22 @@ class CountryService
      * Get all countries
      *
      * @return ModelInterface
+     * @throws
      */
     public function findAll() : ModelInterface
     {
-        return $countries = $this->repository->findAll();
+        if (empty($data['load_with'])) {
+            $countries = $this->repository->findAll();
+        } else {
+            $relations = explode(', ', $data['load_with']);
+            $countries = $this->repository->findAllWithRelations($relations);
+        }
+
+        if ($countries->count() > null) {
+            return $countries;
+        } else {
+            throw new NotFoundException('No countries found in database.', 404);
+        }
     }
 
     /**
@@ -49,6 +62,7 @@ class CountryService
      *
      * @param int $id
      * @return ModelInterface
+     * @throws
      */
     public function findById(int $id) : ModelInterface
     {

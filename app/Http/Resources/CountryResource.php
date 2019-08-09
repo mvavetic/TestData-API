@@ -14,11 +14,15 @@ class CountryResource extends JsonResource
      */
     public function toArray($request)
     {
+        $cityResource = new CityResource($request);
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
-            'capital' => $this->capitalCity->name
+            'cities' => [
+                'name' => $cityResource->collection($this->whenLoaded('cities'))->pluck('name')
+            ],
         ];
     }
 }

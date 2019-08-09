@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
+use App\Exceptions\SystemException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AvatarCreateRequest;
 use App\Http\Resources\PeopleResource;
@@ -11,6 +12,7 @@ use App\Interfaces\ReturnTypeInterface;
 use App\Services\AvatarService;
 use App\Services\PeopleService;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
 use App\Http\Requests\PeopleInfoRequest;
@@ -36,12 +38,10 @@ class PeopleController extends Controller
 
         if ($data['data_format'] === DataFormat::JSON) {
             $peopleResource = new PeopleResource($people);
+            return new JsonResponse($peopleResource->collection($people), HttpStatusCode::HTTP_OK);
 
-            $filter = $data['load_with'] === 'country' ? $peopleResource->collection($people) : $peopleResource->makeHidden('country_id');
-
-            return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
         } elseif ($data['data_format'] === DataFormat::XML) {
-            return $this->responseFactory->view('XML.people.list', compact('people', 'showCountry'))->header('Content-Type', 'text/xml');
+            return $this->responseFactory->view('XML.people.list', compact('people'))->header('Content-Type', 'text/xml');
         }
     }
 
@@ -59,13 +59,11 @@ class PeopleController extends Controller
         $person = $peopleService->findOne($data);
 
         if ($data['data_format'] === DataFormat::JSON) {
-            $personMapper = new PeopleResource($person);
+            $personResource = new PeopleResource($person);
+            return new JsonResponse($personResource, HttpStatusCode::HTTP_OK);
 
-            $filter = $data['load_with'] === 'country' ? $personMapper : $personMapper->makeHidden('country');
-
-            return new JsonResponse($filter, HttpStatusCode::HTTP_OK);
         } elseif ($data['data_format'] === DataFormat::XML) {
-            return $this->responseFactory->view('XML.people.info', compact('person'))->header('Content-Type', 'text/xml');
+            return $this->responseFactory->view('XML.people.list', compact('person'))->header('Content-Type', 'text/xml');
         }
     }
 
