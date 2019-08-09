@@ -4,7 +4,13 @@ namespace App\Services;
 
 class Service
 {
-    protected function makeRelationsArrayFromString(string $string)
+    /**
+     * Converts given string to array of relations
+     *
+     * @param string $string
+     * @return array
+     */
+    protected function makeRelationsArrayFromString(string $string) : array
     {
         return explode(', ', $string);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PersonCreateRequest extends FormRequest
+class CityCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class PersonCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstName' => 'required|string',
-            'lastName' => 'required|string',
-            'nickname' => 'required|string',
-            'birthDate' => 'required|date',
-            'countryId' => 'required|integer|exists:countries,id'
+            'name' => 'required|string',
+            'countryCode' => 'required|string'
         ];
     }
 
@@ -40,11 +37,9 @@ class PersonCreateRequest extends FormRequest
     public function validateData()
     {
         $input = [
-            'first_name' => $this->input('firstName'),
-            'last_name' => $this->input('lastName'),
-            'nickname' => $this->input('nickname'),
-            'birth_date' => $this->input('birthDate'),
-            'country_id' => $this->input('countryId')
+            'name' => $this->input('name'),
+            'country_code' => $this->input('countryCode'),
+            'country_id' => null
         ];
 
         return $input;

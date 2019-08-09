@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Interfaces\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class City extends Model implements ModelInterface
 {
     /**
      * The table associated with the model.
