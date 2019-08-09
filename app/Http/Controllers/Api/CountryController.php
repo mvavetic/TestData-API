@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\SystemException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CountryListRequest;
 use App\Http\Resources\CountryResource;
@@ -19,7 +21,7 @@ class CountryController extends Controller
      * @param CountryListRequest $request
      * @param CountryService $countryService
      * @return ReturnTypeInterface
-     * @throws
+     * @throws SystemException|NotFoundException
      */
     public function index(CountryListRequest $request, CountryService $countryService) : ReturnTypeInterface
     {

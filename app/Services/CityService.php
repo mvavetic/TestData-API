@@ -2,10 +2,14 @@
 
 namespace App\Services;
 
+use App\Enums\ExceptionError;
+use App\Enums\HttpStatusCode;
 use App\Exceptions\NotFoundException;
+use App\Exceptions\SystemException;
 use App\Interfaces\ModelInterface;
 use App\Repositories\BaseRepository;
 use App\Models\City;
+use Illuminate\Database\QueryException;
 
 class CityService
 {
@@ -43,12 +47,16 @@ class CityService
      */
     public function findAll() : ModelInterface
     {
-        $cities = $this->repository->findAll();
+        try {
+            $cities = $this->repository->findAll();
+        } catch (QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         if ($cities->count() > null) {
             return $cities;
         } else {
-            throw new NotFoundException('No cities found in database.', 404);
+            throw new NotFoundException(ExceptionError::ERR_CITIES_NOT_FOUND, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -61,6 +69,10 @@ class CityService
      */
     public function findById(int $id) : ModelInterface
     {
-        return $city = $this->repository->findById($id);
+        try {
+            return $this->repository->findById($id);
+        } catch (QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

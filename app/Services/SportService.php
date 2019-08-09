@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\Enums\ExceptionError;
+use App\Enums\HttpStatusCode;
+use App\Exceptions\SystemException;
 use App\Interfaces\ModelInterface;
 use App\Repositories\BaseRepository;
 use App\Models\Sport;
+use Illuminate\Database\QueryException;
 
 class SportService
 {
@@ -38,10 +42,14 @@ class SportService
      * Get all sports
      *
      * @return ModelInterface
-     * @throws
+     * @throws SystemException
      */
     public function findAll() : ModelInterface
     {
-        return $sports = $this->repository->findAll();
+        try {
+            $this->repository->findAll();
+        } catch (QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

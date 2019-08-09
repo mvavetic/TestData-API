@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
+use App\Exceptions\NotFoundException;
 use App\Exceptions\SystemException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AvatarCreateRequest;
@@ -12,7 +13,6 @@ use App\Interfaces\ReturnTypeInterface;
 use App\Services\AvatarService;
 use App\Services\PeopleService;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\PeopleListRequest;
 use App\Http\Requests\PeopleInfoRequest;
@@ -28,7 +28,7 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PeopleListRequest $request
      * @param \App\Services\PeopleService $peopleService
      * @return ReturnTypeInterface
-     * @throws
+     * @throws SystemException|NotFoundException
      */
     public function index(PeopleListRequest $request, PeopleService $peopleService) : ReturnTypeInterface
     {
@@ -51,6 +51,7 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PeopleInfoRequest $request
      * @param \App\Services\PeopleService $peopleService
      * @return ReturnTypeInterface
+     * @throws SystemException|NotFoundException
      */
     public function show(PeopleInfoRequest $request, PeopleService $peopleService) : ReturnTypeInterface
     {
@@ -75,7 +76,7 @@ class PeopleController extends Controller
      * @param \App\Services\PeopleService $peopleService
      * @param AvatarService $avatarService
      * @return JsonResponse
-     * @throws AuthorizationException
+     * @throws AuthorizationException|SystemException
      */
     public function create(PersonCreateRequest $personRequest, AvatarCreateRequest $avatarRequest, PeopleService $peopleService, AvatarService $avatarService) : JsonResponse
     {
@@ -107,7 +108,7 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\AvatarCreateRequest $avatarRequest
      * @param \App\Services\AvatarService $avatarService
      * @return JsonResponse
-     * @throws AuthorizationException
+     * @throws AuthorizationException|SystemException
      */
     public function update(PersonUpdateRequest $personRequest, AvatarCreateRequest $avatarRequest, AvatarService $avatarService, PeopleService $peopleService) : JsonResponse
     {
@@ -132,7 +133,7 @@ class PeopleController extends Controller
      * @param \App\Http\Requests\PersonDeleteRequest $request
      * @param \App\Services\PeopleService $peopleService
      * @return JsonResponse
-     * @throws AuthorizationException
+     * @throws AuthorizationException|SystemException
      */
     public function destroy(PersonDeleteRequest $request, PeopleService $peopleService) : JsonResponse
     {

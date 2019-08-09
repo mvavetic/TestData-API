@@ -2,12 +2,16 @@
 
 namespace App\Services;
 
+use App\Enums\ExceptionError;
+use App\Enums\HttpStatusCode;
 use App\Exceptions\NotFoundException;
+use App\Exceptions\SystemException;
 use App\Interfaces\ModelInterface;
 use App\Repositories\BaseRepository;
 use App\Models\Country;
+use Illuminate\Database\QueryException;
 
-class CountryService
+class CountryService extends Service
 {
     /**
      * Model to be used
@@ -39,15 +43,19 @@ class CountryService
      * Get all countries
      *
      * @return ModelInterface
-     * @throws
+     * @throws SystemException|NotFoundException
      */
     public function findAll() : ModelInterface
     {
-        if (empty($data['load_with'])) {
-            $countries = $this->repository->findAll();
-        } else {
-            $relations = explode(', ', $data['load_with']);
-            $countries = $this->repository->findAllWithRelations($relations);
+        try {
+            if (empty($data['load_with'])) {
+                $countries = $this->repository->findAll();
+            } else {
+                $relations = $this->makeRelationsArrayFromString($data['load_with']);
+                $countries = $this->repository->findAllWithRelations($relations);
+            }
+        } catch (QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($countries->count() > null) {
@@ -66,6 +74,10 @@ class CountryService
      */
     public function findById(int $id) : ModelInterface
     {
-        return $countries = $this->repository->findById($id);
+        try {
+            return $this->repository->findById($id);
+        } catch (QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

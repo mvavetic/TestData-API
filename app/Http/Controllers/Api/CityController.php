@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\DataFormat;
 use App\Enums\HttpStatusCode;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\SystemException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CityInfoRequest;
 use App\Interfaces\ReturnTypeInterface;
@@ -20,6 +22,7 @@ class CityController extends Controller
      * @param CitiesListRequest $request
      * @param CityService $cityService
      * @return ReturnTypeInterface
+     * @throws SystemException|NotFoundException
      */
     public function index(CitiesListRequest $request, CityService $cityService) : ReturnTypeInterface
     {
@@ -41,6 +44,7 @@ class CityController extends Controller
      * @param CityInfoRequest $request
      * @param CityService $cityService
      * @return ReturnTypeInterface
+     * @throws SystemException
      */
     public function show(CityInfoRequest $request, CityService $cityService)
     {

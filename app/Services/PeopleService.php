@@ -2,13 +2,17 @@
 
 namespace App\Services;
 
+use App\Enums\ExceptionError;
+use App\Enums\HttpStatusCode;
 use App\Exceptions\NotFoundException;
+use App\Exceptions\SystemException;
 use App\Interfaces\ModelInterface;
 use App\Models\Country;
 use App\Repositories\BaseRepository;
 use App\Models\People;
+use Illuminate\Database\QueryException;
 
-class PeopleService
+class PeopleService extends Service
 {
     /**
      * Model to be used
@@ -41,15 +45,19 @@ class PeopleService
      *
      * @param array $data
      * @return ModelInterface
-     * @throws
+     * @throws SystemException|NotFoundException
      */
     public function findAll(array $data) : ModelInterface
     {
-        if (empty($data['load_with'])) {
-            $people = $this->repository->paginate($data['count']);
-        } else {
-            $relations = explode(', ', $data['load_with']);
-            $people = $this->repository->findAllWithRelations($relations);
+        try {
+            if (empty($data['load_with'])) {
+                $people = $this->repository->paginate($data['count']);
+            } else {
+                $relations = $this->makeRelationsArrayFromString($data['load_with']);
+                $people = $this->repository->findAllWithRelations($relations);
+            }
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($people->count() > null) {
@@ -57,37 +65,6 @@ class PeopleService
         } else {
             throw new NotFoundException('No people found in database.', 404);
         }
-    }
-
-    /**
-     * Get all people with requested relations
-     *
-     * @param array $data
-     * @return ModelInterface
-     * @throws
-     */
-    public function findAllWithRelations(array $data) : ModelInterface
-    {
-        $people = $this->repository->findAllWithRelations($data);
-
-        if ($people->count() > null) {
-            return $people;
-        } else {
-            throw new NotFoundException('No people found in database.', 404);
-        }
-    }
-
-    /**
-     * Get a single person with requested relations
-     *
-     * @param array $data
-     * @param int $id
-     * @return ModelInterface
-     * @throws
-     */
-    public function findOneWithRelations(array $data, int $id) : ModelInterface
-    {
-        return $person = $this->repository->findOneWithRelations($data, $id);
     }
 
     /**
@@ -95,15 +72,19 @@ class PeopleService
      *
      * @param array $data
      * @return ModelInterface
-     * @throws
+     * @throws SystemException
      */
     public function findOne(array $data) : ModelInterface
     {
-        if (empty($data['load_with'])) {
-            $person = $this->repository->findOrFail($data['id']);
-        } else {
-            $relations = explode(', ', $data['load_with']);
-            $person = $this->repository->findOneWithRelations($relations, $data['id']);
+        try {
+            if (empty($data['load_with'])) {
+                $person = $this->repository->findOrFail($data['id']);
+            } else {
+                $relations = $this->makeRelationsArrayFromString($data['load_with']);
+                $person = $this->repository->findOneWithRelations($relations, $data['id']);
+            }
+        } catch (QueryException $e) {
+            throw new SystemException("Query failed.", HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $person;
@@ -114,11 +95,15 @@ class PeopleService
      *
      * @param array $data
      * @return ModelInterface
-     * @throws
+     * @throws SystemException
      */
     public function create(array $data) : ModelInterface
     {
-        return $person = $this->repository->create($data);
+        try {
+            return $this->repository->create($data);
+        } catch(QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -126,11 +111,15 @@ class PeopleService
      *
      * @param array $data
      * @return bool
-     * @throws
+     * @throws SystemException
      */
     public function update(array $data) : bool
     {
-        return $person = $this->repository->update($data);
+        try {
+            return $this->repository->update($data);
+        } catch(QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -138,10 +127,14 @@ class PeopleService
      *
      * @param array $data
      * @return bool
-     * @throws
+     * @throws SystemException
      */
     public function delete(array $data) : bool
     {
-        return $this->repository->delete($data['id']);
+        try {
+            return $this->repository->delete($data['id']);
+        } catch(QueryException $e) {
+            throw new SystemException(ExceptionError::ERR_FATAL, HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
